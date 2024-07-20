@@ -1,0 +1,39 @@
+﻿@model Post
+<form method="post">
+        <div class="border p-3 mt-4">
+            <div class="row pb-2">
+                <h2 class="text-primary pl-3">Add Task</h2>
+                <hr />
+            </div>
+
+            <div class="mb-3">
+                <lable asp-for="Title"></lable>
+                <input asp-for="Title" type="text"/>
+                <span asp-validation-for="Title" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <lable asp-for="Description"></lable>
+                <input asp-for="Description"/>
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+            <input asp-for="CreateDate" type="date" id="DateInput" />
+            <lable asp-for="CreateDate"></lable>
+            </div>
+            <button type="submit" class="btn btn-primary" style="width:150px;">Add</button>
+            <a asp-controller="Task" asp-action="Index" class="btn btn-secondary" style="width:150px"> Back to List</a>
+        </div>
+    </form>
+
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+
+    <script>
+        // Get today's date in YYYY-MM-DD format
+        var today = new Date().toISOString().slice(0, 10);
+        
+        // Set the value of the input field to today's date
+        document.getElementById("CreateDate").value = today;
+    </script>
+}

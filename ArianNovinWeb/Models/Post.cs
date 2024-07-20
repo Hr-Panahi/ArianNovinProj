@@ -1,5 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ArianNovinWeb.Models
 {
@@ -16,13 +16,7 @@ namespace ArianNovinWeb.Models
         public string Description { get; set; }
 
         [Required]
-        public string Image { get; set; }
-
-        [Required]
         public DateTime CreateDate { get; set; } = DateTime.Now;
 
-        [ForeignKey("User")]
-        public int AuthorId { get; set; }
-        public User Author { get; set; } // Navigation property
     }
 }

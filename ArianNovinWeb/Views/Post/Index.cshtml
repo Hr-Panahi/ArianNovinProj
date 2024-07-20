@@ -1,0 +1,15 @@
+﻿@model IEnumerable<Post>
+
+@{
+    ViewData["Posts"] = "Posts Home Page";
+}
+
+@foreach (var obj in Model)
+{
+    <ul>
+        <li class="align-middle">@obj.Title</li>
+        <li class="align-middle">@obj.Description</li>
+        <li class="align-middle">@obj.CreateDate</li>
+    </ul>
+
+}
