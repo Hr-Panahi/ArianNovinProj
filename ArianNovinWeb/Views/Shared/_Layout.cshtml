@@ -20,39 +20,30 @@
                 <div class="collapse navbar-collapse" id="navbarColor03">
                     <ul class="navbar-nav me-auto">
                         <li class="nav-item">
-                            <a asp-area="" asp-controller="Post" asp-action="Index">
+                            <a class="nav-link" asp-area="" asp-controller="Post" asp-action="Index">
                                 Post
-                                <span class="visually-hidden">(current)</span>
                             </a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="#">Features</a>
                         </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Dropdown</a>
-                            <div class="dropdown-menu">
-                                @if (User.Identity.IsAuthenticated)
-                                {
+
+                        @if (User.Identity.IsAuthenticated)
+                        {
                             <li class="nav-item">
                                 <a class="nav-link" asp-area="Identity" asp-page="/Account/Logout">Logout</a>
                             </li>
-                                }
-                                else
-                                {
+                        }
+                        else
+                        {
                             <li class="nav-item">
                                 <a class="nav-link" asp-area="Identity" asp-page="/Account/Login">Login</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" asp-area="Identity" asp-page="/Account/Register">Register</a>
                             </li>
-                                }
-                                <a class="dropdown-item" href="#">Login</a>
-                                <a class="dropdown-item" href="#">Register</a>
-                                <a class="dropdown-item" href="#">Logout</a>
-                                <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="#">Separated link</a>
-                            </div>
-                        </li>
+                        }
+
                     </ul>
                     <form class="d-flex">
                         <input class="form-control me-sm-2" type="search" placeholder="Search">
