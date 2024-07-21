@@ -29,14 +29,9 @@
                         <h6>Comments</h6>
                         @if (post.Comments != null && post.Comments.Any())
                         {
-                            @foreach (var comment in post.Comments)
+                            @foreach (var comment in post.Comments.Where(c => c.ParentCommentId == null))
                             {
-                                <div class="card mb-2">
-                                    <div class="card-body">
-                                        <p class="card-text">@comment.Content</p>
-                                        <p class="card-text"><small class="text-muted">Posted by @comment.Author?.UserName on @comment.CreatedAt.ToString("g")</small></p>
-                                    </div>
-                                </div>
+                                @await Html.PartialAsync("_CommentPartial", comment)
                             }
                         }
                         else

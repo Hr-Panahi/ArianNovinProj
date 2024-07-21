@@ -20,12 +20,9 @@
 <!-- Display comments -->
 @if (Model.Comments.Any())
 {
-    @foreach (var comment in Model.Comments)
+    @foreach (var comment in Model.Comments.Where(c => c.ParentCommentId == null))
     {
-        <div>
-            <p>@comment.Content</p>
-            <small>Posted by @comment.Author?.UserName on @comment.CreatedAt.ToString("g")</small>
-        </div>
+        @await Html.PartialAsync("_CommentPartial", comment)
     }
 }
 else

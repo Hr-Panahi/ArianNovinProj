@@ -1,0 +1,33 @@
+﻿@model ArianNovinWeb.Models.Comment
+
+<div class="card mb-2">
+    <div class="card-body">
+        <p class="card-text">@Model.Content</p>
+        <p class="card-text">
+            <small class="text-muted">
+                Posted by @Model.Author?.UserName on @Model.CreatedAt.ToString("g")
+            </small>
+        </p>
+
+        <!-- Reply form -->
+        <form asp-action="AddComment" method="post" class="mt-2">
+            <input type="hidden" name="PostId" value="@Model.PostId" />
+            <input type="hidden" name="ParentCommentId" value="@Model.CommentId" />
+            <div class="mb-2">
+                <textarea name="Content" class="form-control" rows="2" placeholder="Reply..." required></textarea>
+            </div>
+            <button type="submit" class="btn btn-secondary btn-sm">Reply</button>
+        </form>
+
+        <!-- Render replies recursively -->
+        @if (Model.Replies != null && Model.Replies.Any())
+        {
+            <div class="ml-4 mt-2">
+                @foreach (var reply in Model.Replies)
+                {
+                    @await Html.PartialAsync("_CommentPartial", reply)
+                }
+            </div>
+        }
+    </div>
+</div>

@@ -33,7 +33,7 @@ namespace ArianNovinWeb.Controllers
                 .Include(p => p.Author)
                 .Include(p => p.Comments)
                 .ThenInclude(c => c.Author)
-                .ToList();
+                .ToListAsync();
             return View(posts);
         }
 
@@ -239,17 +239,18 @@ namespace ArianNovinWeb.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> AddComment(Comment comment)
         {
+            var user = await _userManager.GetUserAsync(User);
+            if (user != null)
+            {
+                comment.AuthorId = user.Id;
+                comment.CreatedAt = DateTime.Now;
+                _context.Comments.Add(comment);
+                await _context.SaveChangesAsync();
+            }
 
-                var user = await _userManager.GetUserAsync(User);
-                if (user != null)
-                {
-                    comment.AuthorId = user.Id;
-                    _context.Comments.Add(comment);
-                    await _context.SaveChangesAsync();
-                }
-
-            return RedirectToAction(nameof(Index), new { id = comment.PostId });
+            return RedirectToAction(nameof(Details), new { id = comment.PostId });
         }
 
     }
+
 }
