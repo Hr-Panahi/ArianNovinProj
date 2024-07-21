@@ -1,39 +1,48 @@
-﻿@model Post
-<form method="post">
-        <div class="border p-3 mt-4">
-            <div class="row pb-2">
-                <h2 class="text-primary pl-3">Add Task</h2>
-                <hr />
-            </div>
+﻿@model ArianNovinWeb.Models.Post
 
-            <div class="mb-3">
-                <lable asp-for="Title"></lable>
-                <input asp-for="Title" type="text"/>
-                <span asp-validation-for="Title" class="text-danger"></span>
-            </div>
-            <div class="mb-3">
-                <lable asp-for="Description"></lable>
-                <input asp-for="Description"/>
-                <span asp-validation-for="Description" class="text-danger"></span>
-            </div>
-            <div class="mb-3">
-            <input asp-for="CreateDate" type="date" id="DateInput" />
-            <lable asp-for="CreateDate"></lable>
-            </div>
-            <button type="submit" class="btn btn-primary" style="width:150px;">Add</button>
-            <a asp-controller="Task" asp-action="Index" class="btn btn-secondary" style="width:150px"> Back to List</a>
-        </div>
-    </form>
+@{
+    ViewData["Title"] = "Create Post";
+}
 
+<h1>Create Post</h1>
+
+<form asp-action="Create" method="post" enctype="multipart/form-data">
+    @Html.AntiForgeryToken()
+
+    <div class="form-group">
+        <label asp-for="Title" class="control-label"></label>
+        <input asp-for="Title" class="form-control" />
+        <span asp-validation-for="Title" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Description" class="control-label"></label>
+        <textarea asp-for="Description" class="form-control"></textarea>
+        <span asp-validation-for="Description" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="ImagePath" class="control-label"></label>
+        <input type="file" name="imageFile" class="form-control" />
+        <span asp-validation-for="ImagePath" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Author.UserName" class="control-label">Author</label>
+        <input type="text" class="form-control" value="@User.Identity.Name" readonly style="background-color: #f0f0f0;" />
+        <span asp-validation-for="Author" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="CreateDate" class="control-label">Create Date</label>
+        <input type="text" class="form-control" value="@DateTime.Now" readonly style="background-color: #f0f0f0;" />
+        <span asp-validation-for="CreateDate" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <input type="submit" value="Create" class="btn btn-primary" />
+    </div>
+</form>
 
 @section Scripts {
-    <partial name="_ValidationScriptsPartial" />
-
-    <script>
-        // Get today's date in YYYY-MM-DD format
-        var today = new Date().toISOString().slice(0, 10);
-        
-        // Set the value of the input field to today's date
-        document.getElementById("CreateDate").value = today;
-    </script>
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }

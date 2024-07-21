@@ -1,0 +1,54 @@
+﻿@using System.Security.Claims
+@model ArianNovinWeb.Models.Post
+
+@{
+    ViewData["Title"] = "Post Details";
+}
+
+<h1>@Model.Title</h1>
+
+<p>@Model.Description</p>
+<p>Created by @Model.Author?.UserName on @Model.CreateDate.ToString("g")</p>
+
+@if (!string.IsNullOrEmpty(Model.ImagePath))
+{
+    <img src="@Model.ImagePath" alt="Post Image" style="width: 100px; height: auto;" />
+}
+
+<h3>Comments</h3>
+
+<!-- Display comments -->
+@if (Model.Comments.Any())
+{
+    @foreach (var comment in Model.Comments)
+    {
+        <div>
+            <p>@comment.Content</p>
+            <small>Posted by @comment.Author?.UserName on @comment.CreatedAt.ToString("g")</small>
+        </div>
+    }
+}
+else
+{
+    <p>No comments yet.</p>
+}
+
+<!-- Comment form -->
+<form asp-action="AddComment" method="post">
+    <input type="hidden" name="PostId" value="@Model.PostId" />
+    <div>
+        <label for="Content">Comment:</label>
+        <textarea id="Content" name="Content" rows="4" required></textarea>
+    </div>
+    <button type="submit">Add Comment</button>
+</form>
+
+@if (User.Identity.IsAuthenticated && Model.AuthorId == User.FindFirstValue(System.Security.Claims.ClaimTypes.NameIdentifier))
+{
+    <p>
+        <a asp-action="Edit" asp-route-id="@Model.PostId">Edit</a>
+        <a asp-action="Delete" asp-route-id="@Model.PostId">Delete</a>
+    </p>
+}
+
+<a asp-action="Index">Back to Posts List</a>
