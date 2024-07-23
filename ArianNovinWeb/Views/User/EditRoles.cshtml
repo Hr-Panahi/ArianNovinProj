@@ -1,0 +1,33 @@
+﻿@model ArianNovinWeb.ViewModels.EditUserRoleVM
+
+<h2>Edit User Roles</h2>
+
+<form asp-action="EditRoles">
+    <input type="hidden" asp-for="UserId" />
+    <div class="form-group">
+        <label asp-for="AvailableRoles" class="control-label"></label>
+        @if (Model.AvailableRoles != null && Model.AvailableRoles.Any())
+        {
+            @foreach (var role in Model.AvailableRoles.Distinct())
+            {
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox" name="SelectedRoles" value="@role" @(Model.SelectedRoles.Contains(role) ? "checked" : "") />
+                        @role
+                    </label>
+                </div>
+            }
+        }
+        else
+        {
+            <p>No roles available.</p>
+        }
+    </div>
+    <div class="form-group">
+        <input type="submit" value="Save" class="btn btn-primary" />
+    </div>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

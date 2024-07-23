@@ -1,6 +1,6 @@
 ﻿using ArianNovinWeb.Models;
 
-namespace ArianNovinWeb.Models
+namespace ArianNovinWeb.ViewModels
 {
     public class PostNavigationViewModel
     {

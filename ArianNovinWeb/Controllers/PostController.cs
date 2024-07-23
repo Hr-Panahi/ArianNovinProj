@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.Blazor;
+using ArianNovinWeb.ViewModels;
 
 namespace ArianNovinWeb.Controllers
 {
@@ -36,9 +37,14 @@ namespace ArianNovinWeb.Controllers
                 .ThenInclude(c => c.Author)
                 .ToListAsync();
 
-            if (posts == null || !posts.Any())
+            if (!posts.Any())
             {
-                return NotFound("No posts available.");
+                var emptyViewModel = new PostIndexViewModel
+                {
+                    Posts = posts,
+                    ShowShareButton = true
+                };
+                return View(emptyViewModel);
             }
 
             if (id == null)
@@ -57,14 +63,21 @@ namespace ArianNovinWeb.Controllers
             var previousPostId = currentIndex > 0 ? posts[currentIndex - 1].PostId : (int?)null;
             var nextPostId = currentIndex < posts.Count - 1 ? posts[currentIndex + 1].PostId : (int?)null;
 
-            var viewModel = new PostNavigationViewModel
+            var postNavigation = new PostNavigationViewModel
             {
                 Post = currentPost,
                 PreviousPostId = previousPostId,
                 NextPostId = nextPostId
             };
 
-            return View(viewModel);
+            var populatedViewModel = new PostIndexViewModel
+            {
+                Posts = posts,
+                PostNavigation = postNavigation,
+                ShowShareButton = false
+            };
+
+            return View(populatedViewModel);
         }
 
         #region Create

@@ -143,7 +143,7 @@ public class CourseController : Controller
     {
         if (!User.Identity.IsAuthenticated)
         {
-            returnUrl = Url.Action("Details", "Course",new { id = courseId });
+            returnUrl = Url.Action("Index", "Course",new {id=courseId});
             return RedirectToPage("/Account/Login", new { area = "Identity", ReturnUrl = returnUrl });
         }
 

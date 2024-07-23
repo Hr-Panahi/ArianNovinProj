@@ -1,5 +1,4 @@
-﻿// File: Controllers/RoleController.cs
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
@@ -43,13 +42,13 @@ public class RoleController : Controller
     public async Task<IActionResult> ManageUserRoles()
     {
         var users = _userManager.Users;
-        var model = new List<UserRolesViewModel>();
+        var model = new List<UserVM>();
 
         foreach (var user in users)
         {
-            var thisViewModel = new UserRolesViewModel
+            var thisViewModel = new UserVM
             {
-                UserId = user.Id,
+                Id = user.Id,
                 Email = user.Email,
                 Roles = await _userManager.GetRolesAsync(user)
             };
@@ -73,7 +72,7 @@ public class RoleController : Controller
             return NotFound();
         }
 
-        var model = new EditUserRolesViewModel
+        var model = new EditUserRoleVM
         {
             UserId = userId,
             AvailableRoles = _roleManager.Roles.Select(r => r.Name).ToList(),
@@ -84,7 +83,7 @@ public class RoleController : Controller
     }
 
     [HttpPost]
-    public async Task<IActionResult> Edit(EditUserRolesViewModel model)
+    public async Task<IActionResult> Edit(EditUserRoleVM model)
     {
         var user = await _userManager.FindByIdAsync(model.UserId);
         if (user == null)
