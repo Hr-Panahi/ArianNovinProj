@@ -26,15 +26,45 @@ namespace ArianNovinWeb.Controllers
             _webHostEnvironment = webHostEnvironment;
 
         }
+
         [AllowAnonymous]
-        public IActionResult Index()
+        public async Task<IActionResult> Index(int? id)
         {
-            var posts = _context.Posts
+            var posts = await _context.Posts
                 .Include(p => p.Author)
                 .Include(p => p.Comments)
                 .ThenInclude(c => c.Author)
                 .ToListAsync();
-            return View(posts);
+
+            if (posts == null || !posts.Any())
+            {
+                return NotFound("No posts available.");
+            }
+
+            if (id == null)
+            {
+                id = posts.First().PostId;
+            }
+
+            var currentPost = posts.FirstOrDefault(p => p.PostId == id);
+
+            if (currentPost == null)
+            {
+                return NotFound("Post not found.");
+            }
+
+            var currentIndex = posts.IndexOf(currentPost);
+            var previousPostId = currentIndex > 0 ? posts[currentIndex - 1].PostId : (int?)null;
+            var nextPostId = currentIndex < posts.Count - 1 ? posts[currentIndex + 1].PostId : (int?)null;
+
+            var viewModel = new PostNavigationViewModel
+            {
+                Post = currentPost,
+                PreviousPostId = previousPostId,
+                NextPostId = nextPostId
+            };
+
+            return View(viewModel);
         }
 
         #region Create
@@ -99,7 +129,6 @@ namespace ArianNovinWeb.Controllers
             {
                 return NotFound();
             }
-
             var post = await _context.Posts.FindAsync(id);
             if (post == null)
             {
@@ -120,6 +149,8 @@ namespace ArianNovinWeb.Controllers
         [Authorize]
         public async Task<IActionResult> Edit(int id, Post post, IFormFile imageFile)
         {
+            var existingPost = await _context.Posts.AsNoTracking().FirstOrDefaultAsync(p => p.PostId == id);
+
             if (id != post.PostId)
             {
                 return NotFound();
@@ -128,16 +159,15 @@ namespace ArianNovinWeb.Controllers
             var userId = _userManager.GetUserId(User);
             if (post.AuthorId != userId)
             {
-                return Forbid();
+                return Forbid(); // Access denied
             }
-
+            ModelState.Remove("imageFile");
             if (ModelState.IsValid)
             {
                 try
                 {
-                    if (imageFile != null)
+                    if (imageFile != null && imageFile.Length > 0)
                     {
-                        // Save the new image to wwwroot/images
                         var fileName = Path.GetFileName(imageFile.FileName);
                         var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images", fileName);
 
@@ -146,10 +176,9 @@ namespace ArianNovinWeb.Controllers
                             await imageFile.CopyToAsync(stream);
                         }
 
-                        // Update the ImagePath property
                         post.ImagePath = "/images/" + fileName;
                     }
-
+                    
                     _context.Update(post);
                     await _context.SaveChangesAsync();
                 }

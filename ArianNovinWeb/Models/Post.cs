@@ -6,6 +6,8 @@ namespace ArianNovinWeb.Models
 {
     public class Post
     {
+        internal IFormFile? CurrentImageFile;
+
         [Key]
         public int PostId { get; set; }
 

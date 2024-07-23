@@ -25,7 +25,9 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Features</a>
+                            <a class="nav-link" asp-area="" asp-controller="Course" asp-action="Index">
+                                Course
+                            </a>
                         </li>
 
                         @if (User.Identity.IsAuthenticated)
@@ -43,7 +45,15 @@
                                 <a class="nav-link" asp-area="Identity" asp-page="/Account/Register">Register</a>
                             </li>
                         }
-
+                        @if (User.IsInRole("Admin"))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-controller="Role" asp-action="Index">Manage Roles</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-controller="Role" asp-action="ManageUserRoles">Manage User Roles</a>
+                            </li>
+                        }
                     </ul>
                     <form class="d-flex">
                         <input class="form-control me-sm-2" type="search" placeholder="Search">

@@ -1,0 +1,26 @@
+﻿<!-- File: Views/Role/ManageUserRoles.cshtml -->
+@model IEnumerable<ArianNovinWeb.ViewModels.UserRolesViewModel>
+
+<h2>Manage User Roles</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Email</th>
+            <th>Roles</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var user in Model)
+        {
+            <tr>
+                <td>@user.Email</td>
+                <td>@string.Join(", ", user.Roles)</td>
+                <td>
+                    <a asp-action="Edit" asp-route-userId="@user.UserId">Edit</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -1,0 +1,85 @@
+﻿@using System.Security.Claims
+@model ArianNovinWeb.Models.Course
+
+@{
+    ViewData["Title"] = "Course Details";
+    var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+    var isEnrolled = Model.Enrollments.Any(e => e.UserId == userId);
+}
+
+<h2>Course Details</h2>
+
+<div>
+    <h4>@Model.Title</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            Title
+        </dt>
+        <dd class="col-sm-10">
+            @Model.Title
+        </dd>
+        <dt class="col-sm-2">
+            Description
+        </dt>
+        <dd class="col-sm-10">
+            @Model.Description
+        </dd>
+        <dt class="col-sm-2">
+            Start Date
+        </dt>
+        <dd class="col-sm-10">
+            @Model.StartDate.ToShortDateString()
+        </dd>
+        <dt class="col-sm-2">
+            End Date
+        </dt>
+        <dd class="col-sm-10">
+            @Model.EndDate.ToShortDateString()
+        </dd>
+        <dt class="col-sm-2">
+            Instructor
+        </dt>
+        <dd class="col-sm-10">
+            @Model.Instructor
+        </dd>
+    </dl>
+
+    @if (User.IsInRole("Admin"))
+    {
+        <h3>Enrolled Users</h3>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>User</th>
+                    <th>Enrolled At</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var enrollment in Model.Enrollments)
+                {
+                    <tr>
+                        <td>@enrollment.User.UserName</td>
+                        <td>@enrollment.EnrolledAt.ToShortDateString()</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        @if (isEnrolled)
+        {
+            <button class="btn btn-secondary" disabled>Already Enrolled</button>
+        }
+        else
+        {
+            <form asp-action="Enroll" method="post">
+                <input type="hidden" name="courseId" value="@Model.CourseId" />
+                <button type="submit" class="btn btn-success">Enroll</button>
+            </form>
+        }
+    }
+
+    <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+</div>
