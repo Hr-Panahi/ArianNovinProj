@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "oOCIVXIsXeMDnZ3DKzG5MtyzBqM+VaohmkWpdGMZ4o8=",
+  "Hash": "ePNHZwZNqTm/8ZTjV6emmoyOBPzF244VkdV5se2kNqs=",
   "Source": "ArianNovinWeb",
   "BasePath": "_content/ArianNovinWeb",
   "Mode": "Default",
@@ -1459,6 +1459,25 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\images\\764b4b45-41af-431b-bef9-89006186096c.png"
+    },
+    {
+      "Identity": "E:\\Arian Novin\\ArianNovin\\ArianNovinWeb\\wwwroot\\images\\91cdb8ed-fdba-441f-9d4a-05170ea02af4.png",
+      "SourceId": "ArianNovinWeb",
+      "SourceType": "Discovered",
+      "ContentRoot": "E:\\Arian Novin\\ArianNovin\\ArianNovinWeb\\wwwroot\\",
+      "BasePath": "_content/ArianNovinWeb",
+      "RelativePath": "images/91cdb8ed-fdba-441f-9d4a-05170ea02af4.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\images\\91cdb8ed-fdba-441f-9d4a-05170ea02af4.png"
     },
     {
       "Identity": "E:\\Arian Novin\\ArianNovin\\ArianNovinWeb\\wwwroot\\images\\a2f26945-36e0-45c1-8512-a48855cd14ed.png",

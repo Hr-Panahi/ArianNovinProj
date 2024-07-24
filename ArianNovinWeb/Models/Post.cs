@@ -29,5 +29,6 @@ namespace ArianNovinWeb.Models
         public IdentityUser? Author { get; set; } //navigation property
         public ICollection<Comment>? Comments { get; set; } = new List<Comment>(); // Navigation property for comments
 
+
     }
 }

@@ -37,6 +37,19 @@ namespace ArianNovinWeb.Controllers
                 .ThenInclude(c => c.Author)
                 .ToListAsync();
 
+            //Latest Posts Section
+            var latestPosts = await _context.Posts
+                .OrderByDescending(p => p.CreateDate)
+                .Take(5)
+                .ToListAsync();
+
+            var latestPostsViewModel = new LatestItemsVM
+            {
+                Title = "Latest Posts",
+                Items = latestPosts
+            };
+            //Latest Post
+
             if (!posts.Any())
             {
                 var emptyViewModel = new PostIndexViewModel
@@ -74,7 +87,8 @@ namespace ArianNovinWeb.Controllers
             {
                 Posts = posts,
                 PostNavigation = postNavigation,
-                ShowShareButton = false
+                ShowShareButton = false,
+                LatestPosts = latestPostsViewModel
             };
 
             return View(populatedViewModel);
@@ -191,7 +205,7 @@ namespace ArianNovinWeb.Controllers
 
                         post.ImagePath = "/images/" + fileName;
                     }
-                    
+
                     _context.Update(post);
                     await _context.SaveChangesAsync();
                 }
