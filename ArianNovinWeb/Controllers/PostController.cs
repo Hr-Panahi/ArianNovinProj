@@ -214,35 +214,38 @@ namespace ArianNovinWeb.Controllers
 
         #region Delete
         [Authorize]
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
+        //public async Task<IActionResult> Delete(int? id)
+        //{
+        //    if (id == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-            var post = await _context.Posts
-                .FirstOrDefaultAsync(m => m.PostId == id);
-            if (post == null)
-            {
-                return NotFound();
-            }
+        //    var post = await _context.Posts
+        //        .FirstOrDefaultAsync(m => m.PostId == id);
+        //    if (post == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-            var userId = _userManager.GetUserId(User);
-            if (post.AuthorId != userId)
-            {
-                return Forbid();
-            }
+        //    var userId = _userManager.GetUserId(User);
+        //    if (post.AuthorId != userId)
+        //    {
+        //        return Forbid();
+        //    }
 
-            return View(post);
-        }
-
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
+        //    return View(post);
+        //}
+        [HttpPost]
         [Authorize]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<IActionResult> Delete(int id)
         {
             var post = await _context.Posts.FindAsync(id);
+            if (post == null)
+            {
+                return Json(new { success = false, message = "Post not found." });
+            }
+
             var userId = _userManager.GetUserId(User);
             if (post.AuthorId != userId)
             {
@@ -251,8 +254,25 @@ namespace ArianNovinWeb.Controllers
 
             _context.Posts.Remove(post);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+
+            return Json(new { success = true });
         }
+        //[HttpPost, ActionName("Delete")]
+        //[ValidateAntiForgeryToken]
+        //[Authorize]
+        //public async Task<IActionResult> DeleteConfirmed(int id)
+        //{
+        //    var post = await _context.Posts.FindAsync(id);
+        //    var userId = _userManager.GetUserId(User);
+        //    if (post.AuthorId != userId)
+        //    {
+        //        return Forbid();
+        //    }
+
+        //    _context.Posts.Remove(post);
+        //    await _context.SaveChangesAsync();
+        //    return RedirectToAction(nameof(Index));
+        //}
         #endregion
 
         private bool PostExists(int id)

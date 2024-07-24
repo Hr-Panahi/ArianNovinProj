@@ -12,7 +12,7 @@
             {
                 <div class="checkbox">
                     <label>
-                        <input type="checkbox" name="SelectedRoles" value="@role" @(Model.SelectedRoles.Contains(role) ? "checked" : "") />
+                        <input type="radio" name="SelectedRoles" value="@role" @(Model.SelectedRoles.Contains(role) ? "checked" : "") />
                         @role
                     </label>
                 </div>

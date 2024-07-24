@@ -39,7 +39,6 @@
                     <a asp-action="Details" asp-route-id="@course.CourseId" class="btn btn-info">Details</a>
                     @if (User.IsInRole("Admin"))
                     {
-                        <a asp-action="Edit" asp-route-id="@course.CourseId" class="btn btn-warning">Edit</a>
                         <a asp-action="Delete" asp-route-id="@course.CourseId" class="btn btn-danger">Delete</a>
                     }
                     else
@@ -50,12 +49,9 @@
                         }
                         else
                         {
-                            <form asp-action="Enroll" method="post" style="display:inline;">
-                                <input type="hidden" name="courseId" value="@course.CourseId" />
-                                <input type="hidden" name="returnUrl" value="@Url.Action("Details", "Course", new { id = course.CourseId })" />
-                                <button type="submit" class="btn btn-success">Enroll</button>
-                            </form>
+                            <a asp-action="Details" asp-route-id="@course.CourseId" class="btn btn-success">Enroll</a>
                         }
+
                     }
                 </td>
             </tr>

@@ -19,7 +19,7 @@ public class UserController : Controller
         _roleManager = roleManager;
     }
 
-    // GET: /User/Edit
+    //GET: /User/Edit
     public async Task<IActionResult> Edit()
     {
         var user = await _userManager.GetUserAsync(User);
@@ -32,7 +32,8 @@ public class UserController : Controller
         {
             Id = user.Id,
             UserName = user.UserName,
-            Email = user.Email
+            Email = user.Email,
+            PhoneNumber = user.PhoneNumber
         };
 
         return View(model);
@@ -56,6 +57,8 @@ public class UserController : Controller
 
         user.UserName = model.UserName;
         user.Email = model.Email;
+        user.PhoneNumber = model.PhoneNumber;
+        
 
         var result = await _userManager.UpdateAsync(user);
         if (result.Succeeded)
@@ -71,6 +74,7 @@ public class UserController : Controller
 
         return View(model);
     }
+
 
     // GET: /User/Index
     [Authorize(Roles = "Admin")]

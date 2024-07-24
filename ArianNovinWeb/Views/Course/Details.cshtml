@@ -52,6 +52,8 @@
             <thead>
                 <tr>
                     <th>User</th>
+                    <th>Email</th>
+                    <th>Phone Number</th>
                     <th>Enrolled At</th>
                 </tr>
             </thead>
@@ -60,6 +62,8 @@
                 {
                     <tr>
                         <td>@enrollment.User.UserName</td>
+                        <td>@enrollment.User.Email</td>
+                        <td>@enrollment.User.PhoneNumber</td>
                         <td>@enrollment.EnrolledAt.ToShortDateString()</td>
                     </tr>
                 }

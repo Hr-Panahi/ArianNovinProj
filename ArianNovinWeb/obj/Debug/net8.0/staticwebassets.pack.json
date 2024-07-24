@@ -13,12 +13,32 @@
       "PackagePath": "staticwebassets\\favicon.ico"
     },
     {
+      "Id": "E:\\Arian Novin\\ArianNovin\\ArianNovinWeb\\wwwroot\\images\\05147688-e6a7-4f2a-bab5-38db3a0db4d1.png",
+      "PackagePath": "staticwebassets\\images\\05147688-e6a7-4f2a-bab5-38db3a0db4d1.png"
+    },
+    {
+      "Id": "E:\\Arian Novin\\ArianNovin\\ArianNovinWeb\\wwwroot\\images\\088be438-cc9e-43c2-8ec7-2980e5b168ba.png",
+      "PackagePath": "staticwebassets\\images\\088be438-cc9e-43c2-8ec7-2980e5b168ba.png"
+    },
+    {
+      "Id": "E:\\Arian Novin\\ArianNovin\\ArianNovinWeb\\wwwroot\\images\\1304f9c1-2e1b-43f9-94d3-a70f81a3b07c.png",
+      "PackagePath": "staticwebassets\\images\\1304f9c1-2e1b-43f9-94d3-a70f81a3b07c.png"
+    },
+    {
       "Id": "E:\\Arian Novin\\ArianNovin\\ArianNovinWeb\\wwwroot\\images\\2eefe84f-34e6-4427-a431-d5f6e36f8175.png",
       "PackagePath": "staticwebassets\\images\\2eefe84f-34e6-4427-a431-d5f6e36f8175.png"
     },
     {
+      "Id": "E:\\Arian Novin\\ArianNovin\\ArianNovinWeb\\wwwroot\\images\\37ab643b-0777-426d-bed5-25991dd9dc1f.png",
+      "PackagePath": "staticwebassets\\images\\37ab643b-0777-426d-bed5-25991dd9dc1f.png"
+    },
+    {
       "Id": "E:\\Arian Novin\\ArianNovin\\ArianNovinWeb\\wwwroot\\images\\41a85de2-ca36-4abb-a956-c5c632907081.png",
       "PackagePath": "staticwebassets\\images\\41a85de2-ca36-4abb-a956-c5c632907081.png"
+    },
+    {
+      "Id": "E:\\Arian Novin\\ArianNovin\\ArianNovinWeb\\wwwroot\\images\\45a35c23-4e5b-43c4-947f-bffd4f075aab.png",
+      "PackagePath": "staticwebassets\\images\\45a35c23-4e5b-43c4-947f-bffd4f075aab.png"
     },
     {
       "Id": "E:\\Arian Novin\\ArianNovin\\ArianNovinWeb\\wwwroot\\images\\531e51af-0622-454e-9217-0ef88a836159.png",
@@ -29,8 +49,24 @@
       "PackagePath": "staticwebassets\\images\\5876a0c4-9cfd-4586-ba6b-464e26963171.png"
     },
     {
+      "Id": "E:\\Arian Novin\\ArianNovin\\ArianNovinWeb\\wwwroot\\images\\5f6b5c19-529c-45b1-92e4-b8b25584df51.jpg",
+      "PackagePath": "staticwebassets\\images\\5f6b5c19-529c-45b1-92e4-b8b25584df51.jpg"
+    },
+    {
+      "Id": "E:\\Arian Novin\\ArianNovin\\ArianNovinWeb\\wwwroot\\images\\73ecfd7c-c0d4-46f3-8bde-3f9281733dd1.png",
+      "PackagePath": "staticwebassets\\images\\73ecfd7c-c0d4-46f3-8bde-3f9281733dd1.png"
+    },
+    {
       "Id": "E:\\Arian Novin\\ArianNovin\\ArianNovinWeb\\wwwroot\\images\\764b4b45-41af-431b-bef9-89006186096c.png",
       "PackagePath": "staticwebassets\\images\\764b4b45-41af-431b-bef9-89006186096c.png"
+    },
+    {
+      "Id": "E:\\Arian Novin\\ArianNovin\\ArianNovinWeb\\wwwroot\\images\\a2f26945-36e0-45c1-8512-a48855cd14ed.png",
+      "PackagePath": "staticwebassets\\images\\a2f26945-36e0-45c1-8512-a48855cd14ed.png"
+    },
+    {
+      "Id": "E:\\Arian Novin\\ArianNovin\\ArianNovinWeb\\wwwroot\\images\\a746c5af-4492-4c78-97d9-5a53a351a77c.png",
+      "PackagePath": "staticwebassets\\images\\a746c5af-4492-4c78-97d9-5a53a351a77c.png"
     },
     {
       "Id": "E:\\Arian Novin\\ArianNovin\\ArianNovinWeb\\wwwroot\\images\\b50b6658-85bd-47c1-b296-cf0af93d706f.png",
@@ -39,6 +75,14 @@
     {
       "Id": "E:\\Arian Novin\\ArianNovin\\ArianNovinWeb\\wwwroot\\images\\c0ffa709-3daf-441d-8ed9-1cf2ceb992de.png",
       "PackagePath": "staticwebassets\\images\\c0ffa709-3daf-441d-8ed9-1cf2ceb992de.png"
+    },
+    {
+      "Id": "E:\\Arian Novin\\ArianNovin\\ArianNovinWeb\\wwwroot\\images\\e839499c-7197-4e4c-b3e5-e6006acd5f0d.jpg",
+      "PackagePath": "staticwebassets\\images\\e839499c-7197-4e4c-b3e5-e6006acd5f0d.jpg"
+    },
+    {
+      "Id": "E:\\Arian Novin\\ArianNovin\\ArianNovinWeb\\wwwroot\\images\\f6860a7e-b2ab-4d03-aaea-00dd7ab14625.png",
+      "PackagePath": "staticwebassets\\images\\f6860a7e-b2ab-4d03-aaea-00dd7ab14625.png"
     },
     {
       "Id": "E:\\Arian Novin\\ArianNovin\\ArianNovinWeb\\wwwroot\\js\\site.js",
