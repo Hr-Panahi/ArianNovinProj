@@ -13,7 +13,7 @@
     <a asp-action="Create" class="btn btn-primary mb-3">Create New Course</a>
 }
 
-<table class="table">
+<table class="table table-hover">
     <thead>
         <tr>
             <th>Title</th>
@@ -29,7 +29,8 @@
         {
             var isEnrolled = course.Enrollments.Any(e => e.UserId == userId);
 
-            <tr>
+            <tr class="table">
+
                 <td>@course.Title</td>
                 <td>@course.Description</td>
                 <td>@course.StartDate.ToShortDateString()</td>

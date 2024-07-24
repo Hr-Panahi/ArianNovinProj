@@ -1,12 +1,12 @@
 ﻿@model ArianNovinWeb.Models.Comment
 
-<div class="card mb-2">
+<div class="card border-primary cold-md-5 mb-3" ">
     <div class="card-body">
-        <p class="card-text">@Model.Content</p>
-        <p class="card-text">
-            <small class="text-muted">
+        <p class="card-header" >
+            <small class="text-black">
                 Posted by @Model.Author?.UserName on @Model.CreatedAt.ToString("g")
             </small>
+        <p class="card-text">@Model.Content</p> 
         </p>
 
         <!-- Reply form -->
