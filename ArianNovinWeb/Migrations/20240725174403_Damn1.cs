@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace ArianNovinWeb.Migrations
 {
     /// <inheritdoc />
-    public partial class NewStart : Migration
+    public partial class Damn1 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -48,6 +48,23 @@ namespace ArianNovinWeb.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetUsers", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Courses",
+                columns: table => new
+                {
+                    CourseId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    StartDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    EndDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Instructor = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Courses", x => x.CourseId);
                 });
 
             migrationBuilder.CreateTable(
@@ -180,6 +197,33 @@ namespace ArianNovinWeb.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Enrollments",
+                columns: table => new
+                {
+                    EnrollmentId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    CourseId = table.Column<int>(type: "int", nullable: false),
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    EnrolledAt = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Enrollments", x => x.EnrollmentId);
+                    table.ForeignKey(
+                        name: "FK_Enrollments_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Enrollments_Courses_CourseId",
+                        column: x => x.CourseId,
+                        principalTable: "Courses",
+                        principalColumn: "CourseId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Comments",
                 columns: table => new
                 {
@@ -188,7 +232,8 @@ namespace ArianNovinWeb.Migrations
                     Content = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
                     AuthorId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    PostId = table.Column<int>(type: "int", nullable: true)
+                    PostId = table.Column<int>(type: "int", nullable: true),
+                    ParentCommentId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -200,10 +245,16 @@ namespace ArianNovinWeb.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
+                        name: "FK_Comments_Comments_ParentCommentId",
+                        column: x => x.ParentCommentId,
+                        principalTable: "Comments",
+                        principalColumn: "CommentId");
+                    table.ForeignKey(
                         name: "FK_Comments_Posts_PostId",
                         column: x => x.PostId,
                         principalTable: "Posts",
-                        principalColumn: "PostId");
+                        principalColumn: "PostId",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateIndex(
@@ -251,9 +302,24 @@ namespace ArianNovinWeb.Migrations
                 column: "AuthorId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Comments_ParentCommentId",
+                table: "Comments",
+                column: "ParentCommentId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Comments_PostId",
                 table: "Comments",
                 column: "PostId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Enrollments_CourseId",
+                table: "Enrollments",
+                column: "CourseId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Enrollments_UserId",
+                table: "Enrollments",
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Posts_AuthorId",
@@ -283,10 +349,16 @@ namespace ArianNovinWeb.Migrations
                 name: "Comments");
 
             migrationBuilder.DropTable(
+                name: "Enrollments");
+
+            migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
                 name: "Posts");
+
+            migrationBuilder.DropTable(
+                name: "Courses");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");

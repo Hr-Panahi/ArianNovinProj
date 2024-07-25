@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "ePNHZwZNqTm/8ZTjV6emmoyOBPzF244VkdV5se2kNqs=",
+  "Hash": "GqKMfxWG4BgL01Oeg4hT1wkrfDQqgsHrY+KnNwadNg0=",
   "Source": "ArianNovinWeb",
   "BasePath": "_content/ArianNovinWeb",
   "Mode": "Default",
@@ -1423,6 +1423,25 @@
       "OriginalItemSpec": "wwwroot\\images\\5f6b5c19-529c-45b1-92e4-b8b25584df51.jpg"
     },
     {
+      "Identity": "E:\\Arian Novin\\ArianNovin\\ArianNovinWeb\\wwwroot\\images\\6dc0cedd-263b-4f23-a1b9-9df227e5d2ef.png",
+      "SourceId": "ArianNovinWeb",
+      "SourceType": "Discovered",
+      "ContentRoot": "E:\\Arian Novin\\ArianNovin\\ArianNovinWeb\\wwwroot\\",
+      "BasePath": "_content/ArianNovinWeb",
+      "RelativePath": "images/6dc0cedd-263b-4f23-a1b9-9df227e5d2ef.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\images\\6dc0cedd-263b-4f23-a1b9-9df227e5d2ef.png"
+    },
+    {
       "Identity": "E:\\Arian Novin\\ArianNovin\\ArianNovinWeb\\wwwroot\\images\\73ecfd7c-c0d4-46f3-8bde-3f9281733dd1.png",
       "SourceId": "ArianNovinWeb",
       "SourceType": "Discovered",
@@ -1573,6 +1592,25 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\images\\e839499c-7197-4e4c-b3e5-e6006acd5f0d.jpg"
+    },
+    {
+      "Identity": "E:\\Arian Novin\\ArianNovin\\ArianNovinWeb\\wwwroot\\images\\ec3baa28-d802-4d85-aa64-d464dc748416.jpg",
+      "SourceId": "ArianNovinWeb",
+      "SourceType": "Discovered",
+      "ContentRoot": "E:\\Arian Novin\\ArianNovin\\ArianNovinWeb\\wwwroot\\",
+      "BasePath": "_content/ArianNovinWeb",
+      "RelativePath": "images/ec3baa28-d802-4d85-aa64-d464dc748416.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\images\\ec3baa28-d802-4d85-aa64-d464dc748416.jpg"
     },
     {
       "Identity": "E:\\Arian Novin\\ArianNovin\\ArianNovinWeb\\wwwroot\\images\\f6860a7e-b2ab-4d03-aaea-00dd7ab14625.png",

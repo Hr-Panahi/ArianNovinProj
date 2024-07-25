@@ -39,3 +39,19 @@
         <a asp-action="Index" class="btn btn-secondary">Cancel</a>
     </div>
 </form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        $(document).ready(function () {
+            var successMessage = '@TempData["SuccessMessage"]';
+            if (successMessage) {
+                toastr.success(successMessage);
+            }
+            var errorMessage = '@TempData["ErrorMessage"]';
+            if (errorMessage) {
+                toastr.error(errorMessage);
+            }
+        });
+    </script>
+}

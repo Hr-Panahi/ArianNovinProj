@@ -61,9 +61,9 @@ namespace ArianNovinWeb
                 var services = scope.ServiceProvider;
                 try
                 {
-                    var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
                     var userManager = services.GetRequiredService<UserManager<IdentityUser>>();
-                    await SeedRolesAndAdminUser(roleManager, userManager);
+                    var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
+                    await DbInitializer.InitializeAsync(services, userManager, roleManager);
                 }
                 catch (Exception ex)
                 {
@@ -75,27 +75,5 @@ namespace ArianNovinWeb
             app.Run();
         }
 
-        private static async Task SeedRolesAndAdminUser(RoleManager<IdentityRole> roleManager, UserManager<IdentityUser> userManager)
-        {
-            var roles = new[] { "Admin", "User" };
-
-            foreach (var role in roles)
-            {
-                if (!await roleManager.RoleExistsAsync(role))
-                {
-                    await roleManager.CreateAsync(new IdentityRole(role));
-                }
-            }
-
-            // Ensure the admin user exists and is assigned to the Admin role
-            var adminUser = await userManager.Users.FirstOrDefaultAsync();
-            if (adminUser != null)
-            {
-                if (!await userManager.IsInRoleAsync(adminUser, "Admin"))
-                {
-                    await userManager.AddToRoleAsync(adminUser, "Admin");
-                }
-            }
-        }
     }
 }

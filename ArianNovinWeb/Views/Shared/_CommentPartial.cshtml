@@ -1,11 +1,11 @@
 ﻿@model ArianNovinWeb.Models.Comment
 
-<div class="card border-primary cold-md-5 mb-3" ">
+<div class="card border-primary mb-3" ">
     <div class="card-body">
         <p class="card-header" >
-            <small class="text-black">
+@*             <small class="text-black">
                 Posted by @Model.Author?.UserName on @Model.CreatedAt.ToString("g")
-            </small>
+            </small> *@
         <p class="card-text">@Model.Content</p> 
         </p>
 

@@ -1,4 +1,6 @@
-﻿<!DOCTYPE html>
+﻿@inject Microsoft.AspNetCore.Antiforgery.IAntiforgery Antiforgery
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -7,17 +9,17 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/ArianNovinWeb.styles.css" asp-append-version="true" />
-    <link href="https://cdn.jsdelivr.net/npm/bootswatch@5.3.1/dist/journal/bootstrap.min.css" rel="stylesheet">
+@*     <link href="https://cdn.jsdelivr.net/npm/bootswatch@5.3.1/dist/journal/bootstrap.min.css" rel="stylesheet">
+ *@    <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet" />
+    <meta name="csrf-token" content="@Antiforgery.GetAndStoreTokens(Context).RequestToken" />
+
+
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-lg bg-light" data-bs-theme="light">
+        <nav class="navbar navbar-expand-lg bg-primary" data-bs-theme="dark">
             <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">ArianNovinWeb</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor03" aria-controls="navbarColor03" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarColor03">
+                <div class="navbar-collapse collapse w-100 order-1 order-md-0 dual-collapse2">
                     <ul class="navbar-nav me-auto">
                         <li class="nav-item">
                             <a class="nav-link" asp-area="" asp-controller="Post" asp-action="Index">
@@ -29,47 +31,28 @@
                                 Course
                             </a>
                         </li>
-
-@*                         @if (User.Identity.IsAuthenticated)
-                        {
-                            <li class="nav-item">
-                                <a class="nav-link" asp-area="Identity" asp-page="/Account/Logout">Logout</a>
-                                <a class="nav-link" asp-area="" asp-controller="User" asp-action="Edit">Edit Profile</a>
-
-                            </li>
-                        }
-                        else
-                        {
-                            <li class="nav-item">
-                                <a class="nav-link" asp-area="Identity" asp-page="/Account/Login">Login</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" asp-area="Identity" asp-page="/Account/Register">Register</a>
-                            </li>
-                        }
-                        @if (User.IsInRole("Admin"))
-                        {
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-controller="Role" asp-action="Index">Manage Roles</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-controller="Role" asp-action="ManageUserRoles">Manage User Roles</a>
-                            </li>
-                        }
-                    </ul> *@
-                    <ul class="navbar-nav">
+                    </ul>
+                </div>
+                <div class="mx-auto order-0">
+                    <a class="navbar-brand mx-auto" asp-area="" asp-controller="Home" asp-action="Index">ArianNovinWeb</a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".dual-collapse2">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                </div>
+                <div class="navbar-collapse collapse w-100 order-3 dual-collapse2">
+                    <ul class="navbar-nav ms-auto">
                         @if (User.Identity.IsAuthenticated)
                         {
-                            <li class="nav-item">
+                            <li class="nav-item text-white">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="User" asp-action="Edit">Edit Profile</a>
                             </li>
                             @if (User.IsInRole("Admin"))
                             {
-                                <li class="nav-item">
+                                <li class="nav-item bg-white">
                                     <a class="nav-link text-dark" asp-area="" asp-controller="User" asp-action="Index">Users</a>
                                 </li>
                             }
-                            <li class="nav-item">
+                            <li class="nav-item bg-white">
                                 <form method="post" asp-area="Identity" asp-page="/Account/Logout" id="logoutForm" class="form-inline">
                                     <button type="submit" class="nav-link btn btn-link text-dark">Logout</button>
                                 </form>
@@ -77,18 +60,14 @@
                         }
                         else
                         {
-                            <li class="nav-item">
+                            <li class="nav-item bg-white">
                                 <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Login">Login</a>
                             </li>
-                            <li class="nav-item">
+                            <li class="nav-item bg-white">
                                 <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Register">Register</a>
                             </li>
                         }
                     </ul>
-                    <form class="d-flex">
-                        <input class="form-control me-sm-2" type="search" placeholder="Search">
-                        <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
-                    </form>
                 </div>
             </div>
         </nav>
@@ -98,15 +77,16 @@
             @RenderBody()
         </main>
     </div>
-@* 
+    @*
     <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2024 - ArianNovinWeb - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-        </div>
+    <div class="container">
+    &copy; 2024 - ArianNovinWeb - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+    </div>
     </footer> *@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

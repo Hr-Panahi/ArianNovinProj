@@ -63,7 +63,7 @@ public class UserController : Controller
         var result = await _userManager.UpdateAsync(user);
         if (result.Succeeded)
         {
-            TempData["StatusMessage"] = "Your profile has been updated";
+            TempData["SuccessMessage"] = "Your profile has been updated";
             return RedirectToAction(nameof(Edit));
         }
 

@@ -1,61 +1,46 @@
-﻿// File: Data/DbInitializer.cs
-using Microsoft.AspNetCore.Identity;
-using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Microsoft.AspNetCore.Identity;
 
-namespace ArianNovinWeb.Data
+public static class DbInitializer
 {
-    public static class DbInitializer
+    public static async Task InitializeAsync(IServiceProvider serviceProvider, UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager)
     {
-        public static async Task SeedRolesAsync(IServiceProvider serviceProvider)
+        await SeedRoles(roleManager);
+        await SeedAdminUser(userManager);
+    }
+
+    private static async Task SeedRoles(RoleManager<IdentityRole> roleManager)
+    {
+        var roles = new[] { "Admin", "User" };
+
+        foreach (var role in roles)
         {
-            var roleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
-
-            string[] roleNames = { "Admin", "User" };
-            IdentityResult roleResult;
-
-            foreach (var roleName in roleNames)
+            if (!await roleManager.RoleExistsAsync(role))
             {
-                var roleExist = await roleManager.RoleExistsAsync(roleName);
-                if (!roleExist)
-                {
-                    // Create the roles and seed them to the database
-                    roleResult = await roleManager.CreateAsync(new IdentityRole(roleName));
-                }
+                await roleManager.CreateAsync(new IdentityRole(role));
             }
         }
+    }
 
-        public static async Task SeedAdminUserAsync(IServiceProvider serviceProvider)
+    private static async Task SeedAdminUser(UserManager<IdentityUser> userManager)
+    {
+        var adminEmail = "admin@example.com";
+        var adminPassword = "Admin@123";
+
+        if (await userManager.FindByEmailAsync(adminEmail) == null)
         {
-            var userManager = serviceProvider.GetRequiredService<UserManager<IdentityUser>>();
-
             var adminUser = new IdentityUser
             {
-                UserName = "admin@admin.com",
-                Email = "admin@admin.com"
+                UserName = adminEmail,
+                Email = adminEmail,
+                EmailConfirmed = true
             };
 
-            string adminPassword = "Admin@123"; // You can set a strong password here
+            var result = await userManager.CreateAsync(adminUser, adminPassword);
 
-            var user = await userManager.FindByEmailAsync("admin@admin.com");
-
-            if (user == null)
+            if (result.Succeeded)
             {
-                var createPowerUser = await userManager.CreateAsync(adminUser, adminPassword);
-                if (createPowerUser.Succeeded)
-                {
-                    // Assign Admin role to the admin user
-                    await userManager.AddToRoleAsync(adminUser, "Admin");
-                }
+                await userManager.AddToRoleAsync(adminUser, "Admin");
             }
-        }
-
-        public static async Task InitializeAsync(IServiceProvider serviceProvider)
-        {
-            await SeedRolesAsync(serviceProvider);
-            await SeedAdminUserAsync(serviceProvider);
         }
     }
 }

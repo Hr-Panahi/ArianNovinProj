@@ -22,6 +22,12 @@ namespace ArianNovinWeb.Data
             base.OnModelCreating(modelBuilder);
 
             modelBuilder.Entity<Comment>()
+                .HasOne(c => c.Post)
+                .WithMany(p => p.Comments)
+                .HasForeignKey(c => c.PostId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<Comment>()
                 .HasOne(c => c.ParentComment)
                 .WithMany(c => c.Replies)
                 .HasForeignKey(c => c.ParentCommentId)

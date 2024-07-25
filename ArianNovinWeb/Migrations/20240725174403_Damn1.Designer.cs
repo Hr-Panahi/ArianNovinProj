@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ArianNovinWeb.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240721151948_NewStart")]
-    partial class NewStart
+    [Migration("20240725174403_Damn1")]
+    partial class Damn1
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -27,11 +27,11 @@ namespace ArianNovinWeb.Migrations
 
             modelBuilder.Entity("ArianNovinWeb.Models.Comment", b =>
                 {
-                    b.Property<int>("CommentId")
+                    b.Property<int?>("CommentId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CommentId"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int?>("CommentId"));
 
                     b.Property<string>("AuthorId")
                         .IsRequired()
@@ -41,8 +41,12 @@ namespace ArianNovinWeb.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("CreatedAt")
+                    b.Property<DateTime?>("CreatedAt")
+                        .IsRequired()
                         .HasColumnType("datetime2");
+
+                    b.Property<int?>("ParentCommentId")
+                        .HasColumnType("int");
 
                     b.Property<int?>("PostId")
                         .HasColumnType("int");
@@ -51,9 +55,69 @@ namespace ArianNovinWeb.Migrations
 
                     b.HasIndex("AuthorId");
 
+                    b.HasIndex("ParentCommentId");
+
                     b.HasIndex("PostId");
 
                     b.ToTable("Comments");
+                });
+
+            modelBuilder.Entity("ArianNovinWeb.Models.Course", b =>
+                {
+                    b.Property<int>("CourseId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CourseId"));
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("EndDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Instructor")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("StartDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("CourseId");
+
+                    b.ToTable("Courses");
+                });
+
+            modelBuilder.Entity("ArianNovinWeb.Models.Enrollment", b =>
+                {
+                    b.Property<int>("EnrollmentId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("EnrollmentId"));
+
+                    b.Property<int>("CourseId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("EnrolledAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("EnrollmentId");
+
+                    b.HasIndex("CourseId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Enrollments");
                 });
 
             modelBuilder.Entity("ArianNovinWeb.Models.Post", b =>
@@ -301,13 +365,39 @@ namespace ArianNovinWeb.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("ArianNovinWeb.Models.Comment", "ParentComment")
+                        .WithMany("Replies")
+                        .HasForeignKey("ParentCommentId");
+
                     b.HasOne("ArianNovinWeb.Models.Post", "Post")
                         .WithMany("Comments")
-                        .HasForeignKey("PostId");
+                        .HasForeignKey("PostId")
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.Navigation("Author");
 
+                    b.Navigation("ParentComment");
+
                     b.Navigation("Post");
+                });
+
+            modelBuilder.Entity("ArianNovinWeb.Models.Enrollment", b =>
+                {
+                    b.HasOne("ArianNovinWeb.Models.Course", "Course")
+                        .WithMany("Enrollments")
+                        .HasForeignKey("CourseId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Course");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("ArianNovinWeb.Models.Post", b =>
@@ -370,6 +460,16 @@ namespace ArianNovinWeb.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("ArianNovinWeb.Models.Comment", b =>
+                {
+                    b.Navigation("Replies");
+                });
+
+            modelBuilder.Entity("ArianNovinWeb.Models.Course", b =>
+                {
+                    b.Navigation("Enrollments");
                 });
 
             modelBuilder.Entity("ArianNovinWeb.Models.Post", b =>

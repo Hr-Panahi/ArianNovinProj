@@ -142,7 +142,7 @@ namespace ArianNovinWeb.Controllers
             post.AuthorId = _userManager.GetUserId(User);
             _context.Add(post);
             await _context.SaveChangesAsync();
-            TempData["successCreate"] = "Post Created Successfully";
+            TempData["SuccessMessage"] = "Post Created Successfully";
             return RedirectToAction(nameof(Index));
 
         }
@@ -167,7 +167,6 @@ namespace ArianNovinWeb.Controllers
             {
                 return Forbid();
             }
-
             return View(post);
         }
 
@@ -220,44 +219,29 @@ namespace ArianNovinWeb.Controllers
                         throw;
                     }
                 }
+                TempData["SuccessMessage"] = "Post Edited Successfully";
                 return RedirectToAction(nameof(Index));
             }
             return View(post);
         }
         #endregion
 
-        #region Delete
+        [HttpGet]
         [Authorize]
-        //public async Task<IActionResult> Delete(int? id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    var post = await _context.Posts
-        //        .FirstOrDefaultAsync(m => m.PostId == id);
-        //    if (post == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    var userId = _userManager.GetUserId(User);
-        //    if (post.AuthorId != userId)
-        //    {
-        //        return Forbid();
-        //    }
-
-        //    return View(post);
-        //}
-        [HttpPost]
-        [Authorize]
-        public async Task<IActionResult> Delete(int id)
+        public async Task<IActionResult> Delete(int? id)
         {
-            var post = await _context.Posts.FindAsync(id);
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var post = await _context.Posts
+                .Include(p => p.Author)
+                .FirstOrDefaultAsync(m => m.PostId == id);
+
             if (post == null)
             {
-                return Json(new { success = false, message = "Post not found." });
+                return NotFound();
             }
 
             var userId = _userManager.GetUserId(User);
@@ -266,28 +250,46 @@ namespace ArianNovinWeb.Controllers
                 return Forbid();
             }
 
+            return View(post);
+        }
+
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            var post = await _context.Posts
+                .Include(p => p.Comments) // Include related comments
+                .FirstOrDefaultAsync(p => p.PostId == id); var userId = _userManager.GetUserId(User);
+
+            if (post.AuthorId != userId)
+            {
+                return Forbid();
+            }
+
+            // Delete related comments first
+            if (post.Comments != null)
+            {
+                DeleteComments(post.Comments);
+            }
+
+            // Then delete the post
             _context.Posts.Remove(post);
             await _context.SaveChangesAsync();
 
-            return Json(new { success = true });
+            TempData["SuccessMessage"] = "Post deleted successfully!";
+            return RedirectToAction(nameof(Index));
         }
-        //[HttpPost, ActionName("Delete")]
-        //[ValidateAntiForgeryToken]
-        //[Authorize]
-        //public async Task<IActionResult> DeleteConfirmed(int id)
-        //{
-        //    var post = await _context.Posts.FindAsync(id);
-        //    var userId = _userManager.GetUserId(User);
-        //    if (post.AuthorId != userId)
-        //    {
-        //        return Forbid();
-        //    }
-
-        //    _context.Posts.Remove(post);
-        //    await _context.SaveChangesAsync();
-        //    return RedirectToAction(nameof(Index));
-        //}
-        #endregion
+        private void DeleteComments(IEnumerable<Comment> comments)
+        {
+            foreach (var comment in comments)
+            {
+                if (comment.Replies.Any())
+                {
+                    DeleteComments(comment.Replies);
+                }
+                _context.Comments.Remove(comment);
+            }
+        }
 
         private bool PostExists(int id)
         {
@@ -333,6 +335,7 @@ namespace ArianNovinWeb.Controllers
         {
             if (!ModelState.IsValid)
             {
+                //TempData["ErrorMessage"] = "Failed to add comment. Please try again.";
                 return RedirectToAction("Index", new { id = postId });
             }
 
@@ -354,6 +357,7 @@ namespace ArianNovinWeb.Controllers
             _context.Comments.Add(comment);
             await _context.SaveChangesAsync();
 
+            //TempData["SuccessMessage"] = "Comment added successfully!";
             return RedirectToAction("Index", new { id = postId });
         }
 

@@ -24,11 +24,11 @@ namespace ArianNovinWeb.Migrations
 
             modelBuilder.Entity("ArianNovinWeb.Models.Comment", b =>
                 {
-                    b.Property<int>("CommentId")
+                    b.Property<int?>("CommentId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CommentId"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int?>("CommentId"));
 
                     b.Property<string>("AuthorId")
                         .IsRequired()
@@ -38,7 +38,8 @@ namespace ArianNovinWeb.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("CreatedAt")
+                    b.Property<DateTime?>("CreatedAt")
+                        .IsRequired()
                         .HasColumnType("datetime2");
 
                     b.Property<int?>("ParentCommentId")
@@ -363,12 +364,12 @@ namespace ArianNovinWeb.Migrations
 
                     b.HasOne("ArianNovinWeb.Models.Comment", "ParentComment")
                         .WithMany("Replies")
-                        .HasForeignKey("ParentCommentId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .HasForeignKey("ParentCommentId");
 
                     b.HasOne("ArianNovinWeb.Models.Post", "Post")
                         .WithMany("Comments")
-                        .HasForeignKey("PostId");
+                        .HasForeignKey("PostId")
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.Navigation("Author");
 
