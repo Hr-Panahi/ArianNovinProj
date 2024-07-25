@@ -62,7 +62,8 @@ namespace ArianNovinWeb.Controllers
 
             if (id == null)
             {
-                id = posts.First().PostId;
+                //id = posts.First().PostId;
+                id = posts.LastOrDefault().PostId;
             }
 
             var currentPost = posts.FirstOrDefault(p => p.PostId == id);

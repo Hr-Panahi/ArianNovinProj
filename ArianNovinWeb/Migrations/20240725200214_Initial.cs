@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace ArianNovinWeb.Migrations
 {
     /// <inheritdoc />
-    public partial class Damn1 : Migration
+    public partial class Initial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -60,7 +60,8 @@ namespace ArianNovinWeb.Migrations
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     StartDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     EndDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Instructor = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Instructor = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    MaxAttendees = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -248,7 +249,8 @@ namespace ArianNovinWeb.Migrations
                         name: "FK_Comments_Comments_ParentCommentId",
                         column: x => x.ParentCommentId,
                         principalTable: "Comments",
-                        principalColumn: "CommentId");
+                        principalColumn: "CommentId",
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Comments_Posts_PostId",
                         column: x => x.PostId,

@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ArianNovinWeb.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240725174403_Damn1")]
-    partial class Damn1
+    [Migration("20240725200214_Initial")]
+    partial class Initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -80,6 +80,9 @@ namespace ArianNovinWeb.Migrations
                     b.Property<string>("Instructor")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("MaxAttendees")
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("StartDate")
                         .HasColumnType("datetime2");
@@ -367,7 +370,8 @@ namespace ArianNovinWeb.Migrations
 
                     b.HasOne("ArianNovinWeb.Models.Comment", "ParentComment")
                         .WithMany("Replies")
-                        .HasForeignKey("ParentCommentId");
+                        .HasForeignKey("ParentCommentId")
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("ArianNovinWeb.Models.Post", "Post")
                         .WithMany("Comments")

@@ -3,9 +3,19 @@
 <div class="card border-primary mb-3" ">
     <div class="card-body">
         <p class="card-header" >
-@*             <small class="text-black">
-                Posted by @Model.Author?.UserName on @Model.CreatedAt.ToString("g")
-            </small> *@
+@if (Model.Author.UserName != null)
+{
+                <small class="text-black">
+                    Post by @Model.Author.UserName at @Model.CreatedAt
+    </small>
+}
+else
+{
+                <small class="text-black">
+                    Post by @Model.Author.Email at @Model.CreatedAt
+                </small>
+}
+
         <p class="card-text">@Model.Content</p> 
         </p>
 

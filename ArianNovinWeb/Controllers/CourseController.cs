@@ -45,7 +45,8 @@ public class CourseController : Controller
                 Description = model.Description,
                 StartDate = model.StartDate,
                 Instructor = model.Instructor,
-                EndDate = model.EndDate
+                EndDate = model.EndDate,
+                MaxAttendees = model.MaxAttendees
             };
 
             _context.Courses.Add(course);
@@ -73,7 +74,7 @@ public class CourseController : Controller
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Edit(int id, [Bind("CourseId,Title,Description,StartDate,EndDate,Instructor")] Course course)
+    public async Task<IActionResult> Edit(int id, [Bind("CourseId,Title,Description,StartDate,EndDate,Instructor,MaxAttendees")] Course course)
     {
         if (id != course.CourseId)
         {
@@ -148,6 +149,21 @@ public class CourseController : Controller
         }
 
         var userId = User.FindFirstValue(ClaimTypes.NameIdentifier); // Get logged-in user ID
+
+        var course = await _context.Courses
+            .Include(c => c.Enrollments)
+            .FirstOrDefaultAsync(c => c.CourseId == courseId);
+
+        if (course == null)
+        {
+            return NotFound();
+        }
+
+        if(course.Enrollments.Count >= course.MaxAttendees)
+        {
+            TempData["ErrorMessage"] = "This course is already full.";
+            return RedirectToAction("Details", new { id = courseId });
+        }
 
         // Check if the user is already enrolled in the course
         var existingEnrollment = await _context.Enrollments

@@ -78,6 +78,9 @@ namespace ArianNovinWeb.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("MaxAttendees")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("StartDate")
                         .HasColumnType("datetime2");
 
@@ -364,7 +367,8 @@ namespace ArianNovinWeb.Migrations
 
                     b.HasOne("ArianNovinWeb.Models.Comment", "ParentComment")
                         .WithMany("Replies")
-                        .HasForeignKey("ParentCommentId");
+                        .HasForeignKey("ParentCommentId")
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("ArianNovinWeb.Models.Post", "Post")
                         .WithMany("Comments")

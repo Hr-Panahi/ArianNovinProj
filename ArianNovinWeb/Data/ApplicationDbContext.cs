@@ -25,7 +25,7 @@ namespace ArianNovinWeb.Data
                 .HasOne(c => c.Post)
                 .WithMany(p => p.Comments)
                 .HasForeignKey(c => c.PostId)
-                .OnDelete(DeleteBehavior.Cascade);
+                .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<Comment>()
                 .HasOne(c => c.ParentComment)

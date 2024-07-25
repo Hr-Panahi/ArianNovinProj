@@ -21,6 +21,7 @@
             <th>Start Date</th>
             <th>End Date</th>
             <th>Instructor</th>
+            <th>Max Attendees</th>
             <th>Actions</th>
         </tr>
     </thead>
@@ -36,6 +37,7 @@
                 <td>@course.StartDate.ToShortDateString()</td>
                 <td>@course.EndDate.ToShortDateString()</td>
                 <td>@course.Instructor</td>
+                <td>@course.MaxAttendees</td>
                 <td>
                     <a asp-action="Details" asp-route-id="@course.CourseId" class="btn btn-info">Details</a>
                     @if (User.IsInRole("Admin"))
@@ -48,9 +50,19 @@
                         {
                             <button class="btn btn-secondary" disabled>Already Enrolled</button>
                         }
+                        else if (course.Enrollments.Count() >= course.MaxAttendees)
+                        {
+                            <button class="btn btn-danger" disabled>Full</button>                        }
+@*                         {
+                            <a asp-action="Details" asp-route-id="@course.CourseId" class="btn btn-success">Enroll</a>
+                        } *@
                         else
                         {
-                            <a asp-action="Details" asp-route-id="@course.CourseId" class="btn btn-success">Enroll</a>
+                            <form asp-action="Enroll" method="post" style="display:inline;">
+                                <input type="hidden" name="courseId" value="@course.CourseId" />
+                                <input type="hidden" name="returnUrl" value="@Url.Action("Details", "Course", new { id = course.CourseId })" />
+                                <button type="submit" class="btn btn-success">Enroll</button>
+                            </form>
                         }
 
                     }
