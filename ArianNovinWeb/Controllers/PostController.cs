@@ -311,20 +311,50 @@ namespace ArianNovinWeb.Controllers
             return View(post);
         }
 
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> AddComment(Comment comment)
+        //{
+        //    var user = await _userManager.GetUserAsync(User);
+        //    if (user != null)
+        //    {
+        //        comment.AuthorId = user.Id;
+        //        comment.CreatedAt = DateTime.Now;
+        //        _context.Comments.Add(comment);
+        //        await _context.SaveChangesAsync();
+        //    }
+
+        //    return RedirectToAction(nameof(Details), new { id = comment.PostId });
+        //}
+
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> AddComment(Comment comment)
+        public async Task<IActionResult> AddComment(int postId, string content, int? parentCommentId)
         {
-            var user = await _userManager.GetUserAsync(User);
-            if (user != null)
+            if (!ModelState.IsValid)
             {
-                comment.AuthorId = user.Id;
-                comment.CreatedAt = DateTime.Now;
-                _context.Comments.Add(comment);
-                await _context.SaveChangesAsync();
+                return RedirectToAction("Index", new { id = postId });
             }
 
-            return RedirectToAction(nameof(Details), new { id = comment.PostId });
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                return Forbid();
+            }
+
+            var comment = new Comment
+            {
+                PostId = postId,
+                Content = content,
+                AuthorId = user.Id,
+                CreatedAt = DateTime.Now,
+                ParentCommentId = parentCommentId
+            };
+
+            _context.Comments.Add(comment);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction("Index", new { id = postId });
         }
 
     }

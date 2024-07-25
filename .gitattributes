@@ -1,0 +1,23 @@
+# Set the default behavior to automatically normalize line endings.
+* text=auto
+
+# Explicitly declare text files we want to always be normalized
+*.cs text
+*.json text
+*.css text
+*.js text
+*.html text
+*.cshtml text
+*.config text
+
+# Binary files
+*.jpg binary
+*.png binary
+*.gif binary
+*.exe binary
+*.dll binary
+*.pdb binary
+*.ttf binary
+*.woff binary
+*.woff2 binary
+*.eot binary
