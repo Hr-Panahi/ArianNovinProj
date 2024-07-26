@@ -1,5 +1,5 @@
 ﻿@using System.Security.Claims
-@model ArianNovinWeb.ViewModels.PostIndexViewModel
+@model ArianNovinWeb.ViewModels.PostIndexVM
 
 @{
     ViewData["Title"] = "Post Details";
@@ -60,21 +60,23 @@
                         <a asp-action="Details" asp-route-id="@Model.PostNavigation.Post.PostId" class="btn btn-outline-info btn-sm">Details</a>
                     </div>
                 </div>
-
                 <!-- Comment form -->
-                <div class="card mt-3 ">
-                    <div class="card-body ">
-                        <h3>Leave a Comment</h3>
-                        <form asp-action="AddComment" method="post">
-                            <input type="hidden" name="PostId" value="@Model.PostNavigation.Post.PostId" />
-                            <div class="form-group">
-                                <label for="Content">Comment:</label>
-                                <textarea id="Content" name="Content" rows="4" required class="form-control"></textarea>
-                            </div>
-                            <button type="submit" class="btn btn-primary mt-2">Add Comment</button>
-                        </form>
+                    <div class="card mt-3 ">
+                        <div class="card-body ">
+                            <h3>Leave a Comment</h3>
+                            <form asp-action="AddComment" method="post">
+                                <input type="hidden" name="PostId" value="@Model.PostNavigation.Post.PostId" />
+                                <div class="form-group">
+                                    <label for="Content">Comment:</label>
+                                    <textarea id="Content" name="Content" rows="4" required class="form-control"></textarea>
+                                </div>
+                                <button type="submit" class="btn btn-primary mt-2">Add Comment</button>
+                            </form>
+                        </div>
                     </div>
-                </div>
+
+
+
             </div>
 
             <div class="col-md-4 mt-3">

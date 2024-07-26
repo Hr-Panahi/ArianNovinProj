@@ -1,14 +1,14 @@
 ﻿@model ArianNovinWeb.ViewModels.LatestItemsVM
 
-<div class="card mt-5">
+<div class="card mt-5 bg- ">
     <div class="card-header mb-2">
         <h3>@Model.Title</h3>
     </div>
     <ul class="list-group list-group-flush">
         @foreach (var item in Model.Items)
         {
-            <li class="card bg-secondary mb-2">
-                <div class="card-header text-black text-bg-light">
+            <li class="card bg-dark mb-2">
+                <div class="card-header text-black text-bg-light bg-secondary">
                     <a class="text-black" href="@Url.Action("Index", new { id = item.PostId })">@item.Title</a>
 
             </div>

@@ -2,12 +2,18 @@
 
 public static class DbInitializer
 {
+    /// <summary>
+    /// Initializes the database by seeding roles and the admin user.
+    /// </summary>
     public static async Task InitializeAsync(IServiceProvider serviceProvider, UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager)
     {
         await SeedRoles(roleManager);
         await SeedAdminUser(userManager);
     }
 
+    /// <summary>
+    /// Seeds the roles in the database if they do not already exist.
+    /// </summary>
     private static async Task SeedRoles(RoleManager<IdentityRole> roleManager)
     {
         var roles = new[] { "Admin", "User" };
@@ -21,6 +27,10 @@ public static class DbInitializer
         }
     }
 
+    /// <summary>
+    /// Seeds the admin user in the database if it does not already exist.
+    /// </summary>
+    /// <param name="userManager">UserManager instance</param>
     private static async Task SeedAdminUser(UserManager<IdentityUser> userManager)
     {
         var adminEmail = "admin@example.com";

@@ -13,13 +13,22 @@ public class UserController : Controller
     private readonly UserManager<IdentityUser> _userManager;
     private readonly RoleManager<IdentityRole> _roleManager;
 
+    /// <summary>
+    /// Constructor for the UserController class.
+    /// </summary>
+    /// <param name="userManager">UserManager instance</param>
+    /// <param name="roleManager">RoleManager instance</param>
     public UserController(UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager)
     {
         _userManager = userManager;
         _roleManager = roleManager;
     }
 
-    //GET: /User/Edit
+    #region Edit
+    /// <summary>
+    /// Displays the user's profile for editing.
+    /// </summary>
+    /// <returns>Edit view with user details</returns>
     public async Task<IActionResult> Edit()
     {
         var user = await _userManager.GetUserAsync(User);
@@ -39,7 +48,11 @@ public class UserController : Controller
         return View(model);
     }
 
-    // POST: /User/Edit
+    /// <summary>
+    /// Updates the user's profile.
+    /// </summary>
+    /// <param name="model">EditUserVM instance</param>
+    /// <returns>Redirects to Edit view or returns to Edit view if there is an error</returns>
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Edit(EditUserVM model)
@@ -74,9 +87,13 @@ public class UserController : Controller
 
         return View(model);
     }
+    #endregion
 
-
-    // GET: /User/Index
+    #region Check Users
+    /// <summary>
+    /// Displays the list of users for admin.
+    /// </summary>
+    /// <returns>Index view with users and their roles</returns>
     [Authorize(Roles = "Admin")]
     public IActionResult Index()
     {
@@ -90,8 +107,14 @@ public class UserController : Controller
 
         return View(users);
     }
+    #endregion
 
-    // GET: /User/EditRoles
+    #region Edit User Roles
+    /// <summary>
+    /// Displays the edit roles form for a specific user.
+    /// </summary>
+    /// <param name="userId">User ID</param>
+    /// <returns>EditRoles view with user roles</returns>
     [Authorize(Roles = "Admin")]
     public async Task<IActionResult> EditRoles(string userId)
     {
@@ -114,7 +137,11 @@ public class UserController : Controller
         return View(model);
     }
 
-    // POST: /User/EditRoles
+    /// <summary>
+    /// Updates the roles of a user.
+    /// </summary>
+    /// <param name="model">EditUserRoleVM instance</param>
+    /// <returns>Redirects to Index view or returns to EditRoles view if there is an error</returns>
     [HttpPost]
     [ValidateAntiForgeryToken]
     [Authorize(Roles = "Admin")]
@@ -162,4 +189,5 @@ public class UserController : Controller
 
         return RedirectToAction(nameof(Index));
     }
+    #endregion
 }

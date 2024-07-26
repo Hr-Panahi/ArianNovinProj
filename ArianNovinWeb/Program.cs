@@ -56,6 +56,7 @@ namespace ArianNovinWeb
                 pattern: "{controller=Home}/{action=Index}/{id?}");
             app.MapRazorPages();
 
+            // Seeds the database with initial data
             using (var scope = app.Services.CreateScope())
             {
                 var services = scope.ServiceProvider;

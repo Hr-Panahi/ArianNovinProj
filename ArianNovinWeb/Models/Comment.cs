@@ -26,8 +26,8 @@ namespace ArianNovinWeb.Models
 
         [ForeignKey("ParentComment")]
         public int? ParentCommentId { get; set; }
-        public Comment? ParentComment { get; set; } // Self-referencing relationship
+        public Comment? ParentComment { get; set; } // Self-referencing foreign key for nested comments (Replies)
 
-        public ICollection<Comment> Replies { get; set; } = new List<Comment>();
+        public ICollection<Comment> Replies { get; set; } = new List<Comment>(); //navigation property for child comments
     }
 }

@@ -12,11 +12,19 @@ public class CourseController : Controller
 {
     private readonly ApplicationDbContext _context;
 
+    /// <summary>
+    /// Constructor for the CourseController class.
+    /// </summary>
+    /// <param name="context">ApplicationDbContext instance</param>
     public CourseController(ApplicationDbContext context)
     {
         _context = context;
     }
 
+    /// <summary>
+    /// Displays the list of courses.
+    /// </summary>
+    /// <returns>Index view with courses</returns>
     [AllowAnonymous]
     public async Task<IActionResult> Index()
     {
@@ -27,15 +35,24 @@ public class CourseController : Controller
         return View(courses);
     }
 
+    #region Create Course
+    /// <summary>
+    /// Displays the Create Course form.
+    /// </summary>
+    /// <returns>Create view</returns>
     public IActionResult Create()
     {
-        return View(new CourseViewModel());
+        return View(new CourseVM());
     }
 
-    // POST: /Course/Create
+    /// <summary>
+    /// Handles the submission of the Create Course form.
+    /// </summary>
+    /// <param name="model">CourseViewModel instance</param>
+    /// <returns>Redirects to Index view</returns>
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Create(CourseViewModel model)
+    public async Task<IActionResult> Create(CourseVM model)
     {
         if (ModelState.IsValid)
         {
@@ -56,7 +73,14 @@ public class CourseController : Controller
         }
         return View(model);
     }
+    #endregion
 
+    #region Edit Course
+    /// <summary>
+    /// Displays the Edit Course form.
+    /// </summary>
+    /// <param name="id">Course ID</param>
+    /// <returns>Edit view</returns>
     public async Task<IActionResult> Edit(int? id)
     {
         if (id == null)
@@ -72,6 +96,12 @@ public class CourseController : Controller
         return View(course);
     }
 
+    /// <summary>
+    /// Handles the submission of the Edit Course form.
+    /// </summary>
+    /// <param name="id">Course ID</param>
+    /// <param name="course">Course model</param>
+    /// <returns>Redirects to Index view</returns>
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Edit(int id, [Bind("CourseId,Title,Description,StartDate,EndDate,Instructor,MaxAttendees")] Course course)
@@ -103,7 +133,14 @@ public class CourseController : Controller
         }
         return View(course);
     }
+    #endregion
 
+    #region Delete Course
+    /// <summary>
+    /// Displays the Delete Course confirmation view.
+    /// </summary>
+    /// <param name="id">Course ID</param>
+    /// <returns>Delete view</returns>
     [Authorize(Roles = "Admin")]
     public async Task<IActionResult> Delete(int? id)
     {
@@ -122,6 +159,11 @@ public class CourseController : Controller
         return View(course);
     }
 
+    /// <summary>
+    /// Handles the deletion of a course.
+    /// </summary>
+    /// <param name="id">Course ID</param>
+    /// <returns>Redirects to Index view</returns>
     [HttpPost, ActionName("Delete")]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> DeleteConfirmed(int id)
@@ -131,12 +173,25 @@ public class CourseController : Controller
         await _context.SaveChangesAsync();
         return RedirectToAction(nameof(Index));
     }
+    #endregion
 
+    /// <summary>
+    /// Checks if a course exists.
+    /// </summary>
+    /// <param name="id">Course ID</param>
+    /// <returns>Boolean indicating if the course exists</returns>
     private bool CourseExists(int id)
     {
         return _context.Courses.Any(e => e.CourseId == id);
     }
 
+    #region Enroll in Course
+    /// <summary>
+    /// Handles user enrollment in a course.
+    /// </summary>
+    /// <param name="courseId">Course ID</param>
+    /// <param name="returnUrl">Return URL</param>
+    /// <returns>Redirects to the course details or login page if not authenticated</returns>
     [HttpPost]
     [AllowAnonymous]
     [ValidateAntiForgeryToken]
@@ -191,9 +246,14 @@ public class CourseController : Controller
         // Redirect to the details page of the course
         return RedirectToAction("Details", new { id = courseId });
     }
+    #endregion
 
-
-
+    #region Details of the Course
+    /// <summary>
+    /// Displays the details of a course.
+    /// </summary>
+    /// <param name="id">Course ID</param>
+    /// <returns>Details view</returns>
     [AllowAnonymous]
     public async Task<IActionResult> Details(int? id)
     {
@@ -214,4 +274,5 @@ public class CourseController : Controller
 
         return View(course);
     }
+    #endregion
 }

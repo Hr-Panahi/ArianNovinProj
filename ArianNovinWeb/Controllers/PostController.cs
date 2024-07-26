@@ -10,16 +10,25 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.Blazor;
 using ArianNovinWeb.ViewModels;
+using Microsoft.AspNetCore.Antiforgery;
 
 namespace ArianNovinWeb.Controllers
 {
     [Authorize]
     public class PostController : Controller
     {
+
+
         private readonly ApplicationDbContext _context;
         private readonly UserManager<IdentityUser> _userManager;
         private readonly IWebHostEnvironment _webHostEnvironment;
 
+        /// <summary>
+        /// Constructor for the PostController class.
+        /// </summary>
+        /// <param name="context">ApplicationDbContext instance</param>
+        /// <param name="userManager">UserManager instance</param>
+        /// <param name="webHostEnvironment">WebHostEnvironment instance</param>
         public PostController(ApplicationDbContext context, UserManager<IdentityUser> userManager, IWebHostEnvironment webHostEnvironment)
         {
             _context = context;
@@ -28,6 +37,12 @@ namespace ArianNovinWeb.Controllers
 
         }
 
+        #region Index
+        /// <summary>
+        /// Displays the list of posts with the latest post displayed.
+        /// </summary>
+        /// <param name="id">Optional post ID</param>
+        /// <returns>Index view with posts</returns>
         [AllowAnonymous]
         public async Task<IActionResult> Index(int? id)
         {
@@ -52,7 +67,7 @@ namespace ArianNovinWeb.Controllers
 
             if (!posts.Any())
             {
-                var emptyViewModel = new PostIndexViewModel
+                var emptyViewModel = new PostIndexVM
                 {
                     Posts = posts,
                     ShowShareButton = true
@@ -77,14 +92,14 @@ namespace ArianNovinWeb.Controllers
             var previousPostId = currentIndex > 0 ? posts[currentIndex - 1].PostId : (int?)null;
             var nextPostId = currentIndex < posts.Count - 1 ? posts[currentIndex + 1].PostId : (int?)null;
 
-            var postNavigation = new PostNavigationViewModel
+            var postNavigation = new PostNavigationVM
             {
                 Post = currentPost,
                 PreviousPostId = previousPostId,
                 NextPostId = nextPostId
             };
 
-            var populatedViewModel = new PostIndexViewModel
+            var populatedViewModel = new PostIndexVM
             {
                 Posts = posts,
                 PostNavigation = postNavigation,
@@ -94,8 +109,13 @@ namespace ArianNovinWeb.Controllers
 
             return View(populatedViewModel);
         }
+        #endregion
 
         #region Create
+        /// <summary>
+        /// Displays the Create Post form.
+        /// </summary>
+        /// <returns>Create view</returns>
         [Authorize]
         public IActionResult Create()
         {
@@ -108,6 +128,12 @@ namespace ArianNovinWeb.Controllers
             return View();
         }
 
+        /// <summary>
+        /// Handles the submission of the Create Post form.
+        /// </summary>
+        /// <param name="post">Post model</param>
+        /// <param name="imageFile">Uploaded image file</param>
+        /// <returns>Redirects to Index view</returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize]
@@ -150,6 +176,11 @@ namespace ArianNovinWeb.Controllers
         #endregion
 
         #region Edit
+        /// <summary>
+        /// Displays the Edit Post form.
+        /// </summary>
+        /// <param name="id">Post ID</param>
+        /// <returns>Edit view</returns>
         [Authorize]
         public async Task<IActionResult> Edit(int? id)
         {
@@ -171,6 +202,13 @@ namespace ArianNovinWeb.Controllers
             return View(post);
         }
 
+        /// <summary>
+        /// Handles the submission of the Edit Post form.
+        /// </summary>
+        /// <param name="id">Post ID</param>
+        /// <param name="post">Post model</param>
+        /// <param name="imageFile">Uploaded image file</param>
+        /// <returns>Redirects to Index view</returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize]
@@ -227,6 +265,12 @@ namespace ArianNovinWeb.Controllers
         }
         #endregion
 
+        #region Delete
+        /// <summary>
+        /// Displays the Delete Post confirmation view.
+        /// </summary>
+        /// <param name="id">Post ID</param>
+        /// <returns>Delete view</returns>
         [HttpGet]
         [Authorize]
         public async Task<IActionResult> Delete(int? id)
@@ -254,6 +298,11 @@ namespace ArianNovinWeb.Controllers
             return View(post);
         }
 
+        /// <summary>
+        /// Handles the deletion of a post and its related comments.
+        /// </summary>
+        /// <param name="id">Post ID</param>
+        /// <returns>Redirects to Index view</returns>
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
@@ -280,6 +329,11 @@ namespace ArianNovinWeb.Controllers
             TempData["SuccessMessage"] = "Post deleted successfully!";
             return RedirectToAction(nameof(Index));
         }
+
+        /// <summary>
+        /// Recursively deletes comments and their replies.
+        /// </summary>
+        /// <param name="comments">Enumerable of comments</param>
         private void DeleteComments(IEnumerable<Comment> comments)
         {
             foreach (var comment in comments)
@@ -291,14 +345,24 @@ namespace ArianNovinWeb.Controllers
                 _context.Comments.Remove(comment);
             }
         }
+        #endregion
 
+        /// <summary>
+        /// Checks if a post exists by ID.
+        /// </summary>
+        /// <param name="id">Post ID</param>
+        /// <returns>Boolean indicating if post exists</returns>
         private bool PostExists(int id)
         {
             return _context.Posts.Any(e => e.PostId == id);
         }
 
-
-        // GET: Post/Details/5
+        #region Details
+        /// <summary>
+        /// Displays the details of a post.
+        /// </summary>
+        /// <param name="id">Post ID</param>
+        /// <returns>Details view</returns>
         public async Task<IActionResult> Details(int id)
         {
             var post = await _context.Posts
@@ -313,30 +377,23 @@ namespace ArianNovinWeb.Controllers
 
             return View(post);
         }
+        #endregion
 
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> AddComment(Comment comment)
-        //{
-        //    var user = await _userManager.GetUserAsync(User);
-        //    if (user != null)
-        //    {
-        //        comment.AuthorId = user.Id;
-        //        comment.CreatedAt = DateTime.Now;
-        //        _context.Comments.Add(comment);
-        //        await _context.SaveChangesAsync();
-        //    }
-
-        //    return RedirectToAction(nameof(Details), new { id = comment.PostId });
-        //}
-
+        #region Add Comment
+        /// <summary>
+        /// Handles adding a comment to a post.
+        /// </summary>
+        /// <param name="postId">Post ID</param>
+        /// <param name="content">Comment content</param>
+        /// <param name="parentCommentId">Parent comment ID (optional)</param>
+        /// <returns>Redirects to Index view</returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> AddComment(int postId, string content, int? parentCommentId)
         {
             if (!ModelState.IsValid)
             {
-                //TempData["ErrorMessage"] = "Failed to add comment. Please try again.";
+                TempData["ErrorMessage"] = "Failed to add comment. Please try again.";
                 return RedirectToAction("Index", new { id = postId });
             }
 
@@ -358,9 +415,11 @@ namespace ArianNovinWeb.Controllers
             _context.Comments.Add(comment);
             await _context.SaveChangesAsync();
 
-            //TempData["SuccessMessage"] = "Comment added successfully!";
+            TempData["SuccessMessage"] = "Comment added successfully!";
             return RedirectToAction("Index", new { id = postId });
         }
+        #endregion
+
 
     }
 

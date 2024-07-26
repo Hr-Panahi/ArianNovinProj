@@ -2,21 +2,20 @@
 
 <div class="card border-primary mb-3" ">
     <div class="card-body">
-        <p class="card-header" >
-@if (Model.Author.UserName != null)
-{
+        <p class="card-header">
+            @if (Model.Author.UserName != null)
+            {
                 <small class="text-black">
                     Post by @Model.Author.UserName at @Model.CreatedAt
-    </small>
-}
-else
-{
+                </small>
+            }
+            else
+            {
                 <small class="text-black">
                     Post by @Model.Author.Email at @Model.CreatedAt
                 </small>
-}
-
-        <p class="card-text">@Model.Content</p> 
+            }
+        <p class="card-text">@Model.Content</p>
         </p>
 
         <!-- Reply form -->
@@ -39,5 +38,6 @@ else
                 }
             </div>
         }
+
     </div>
 </div>

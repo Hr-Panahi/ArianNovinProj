@@ -14,6 +14,19 @@
         <input asp-for="Title" class="form-control" />
         <span asp-validation-for="Title" class="text-danger"></span>
     </div>
+@*     <div class="form-group bg-white mt-2">
+        <label asp-for="Description" class="control-label"></label>
+        <div id="editor-container" class="text-black"></div>
+        <textarea asp-for="Description" id="Description" style="display:none"></textarea>
+        <span asp-validation-for="Description" class="text-danger"></span>
+    </div> *@
+    <div class="form-group">
+        <label asp-for="Author.UserName" class="control-label">Author</label>
+        <input type="text" class="form-control" value="@User.Identity.Name" readonly style="background-color: #f0f0f0;" />
+        <span asp-validation-for="Author" class="text-danger"></span>
+    </div>
+    </div>
+
     <div class="form-group">
         <label asp-for="Description" class="control-label"></label>
         <textarea asp-for="Description" class="form-control"></textarea>
@@ -24,12 +37,6 @@
         <input type="file" name="imageFile" class="form-control" />
         <span asp-validation-for="ImagePath" class="text-danger"></span>
     </div>
-    <div class="form-group">
-        <label asp-for="Author.UserName" class="control-label">Author</label>
-        <input type="text" class="form-control" value="@User.Identity.Name" readonly style="background-color: #f0f0f0;" />
-        <span asp-validation-for="Author" class="text-danger"></span>
-    </div>
-
     <div class="form-group">
         <label asp-for="CreateDate" class="control-label">Create Date</label>
         <input type="text" class="form-control" value="@DateTime.Now" readonly style="background-color: #f0f0f0;" />
@@ -42,7 +49,6 @@
 </form>
 
 @section Scripts {
-    @{
-        await Html.RenderPartialAsync("_ValidationScriptsPartial");
-    }
+    <partial name="_ValidationScriptsPartial" />
+
 }
