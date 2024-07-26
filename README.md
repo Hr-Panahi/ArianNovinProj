@@ -74,7 +74,7 @@ The application includes a REST API for managing posts and courses.
 - PUT /api/ApiCourse/{id} - Updates an existing course
 - DELETE /api/ApiCourse/{id} - Deletes a course
 
-#### Contributing
+## Contributing
 Contributions are welcome! Please fork the repository and create a pull request with your changes.
 1. Fork the repository.
 2. Create a new branch: git checkout -b my-feature-branch
