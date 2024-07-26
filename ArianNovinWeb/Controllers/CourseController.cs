@@ -42,7 +42,12 @@ public class CourseController : Controller
     /// <returns>Create view</returns>
     public IActionResult Create()
     {
-        return View(new CourseVM());
+        var model = new CourseVM
+        {
+            StartDate = DateTime.Now, // Set the default start date to today
+            EndDate = DateTime.Now.AddMonths(1) // Optional: Set the default end date to one month from today
+        };
+        return View(model);
     }
 
     /// <summary>

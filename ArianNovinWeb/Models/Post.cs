@@ -13,19 +13,19 @@ namespace ArianNovinWeb.Models
 
         [Required]
         [StringLength(100)]
-        public string Title { get; set; }
+        public string? Title { get; set; }
 
         [Required]
-        public string Description { get; set; }
+        public string? Description { get; set; }
 
         [Required]
-        public string ImagePath { get; set; }
+        public string? ImagePath { get; set; }
 
         [Required]
         public DateTime CreateDate { get; set; } = DateTime.Now;
         [Required]
         [ForeignKey("Author")]
-        public string? AuthorId { get; set; }
+        public string? AuthorId { get; set; } = default;
         public IdentityUser? Author { get; set; } //navigation property
         public ICollection<Comment>? Comments { get; set; } = new List<Comment>(); // Navigation property for comments
 

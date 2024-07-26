@@ -2,7 +2,41 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="container mt-4">
+    <div class="jumbotron">
+        <h1 class="display-4">Welcome to Arian Novin Web!</h1>
+        <hr class="my-4">
+        <p>Explore the features and navigate through the site using the links below.</p>
+        <a class="btn btn-primary btn-lg" href="@Url.Action("Index", "Post")" role="button">View Posts</a>
+        <a class="btn btn-success btn-lg" href="@Url.Action("Index", "Course")" role="button">View Courses</a>
+    </div>
+
+    <div class="row mt-4">
+        <div class="col-md-8">
+            <h2>Latest Posts</h2>
+            @if (ViewBag.LatestPosts != null && ViewBag.LatestPosts.Count > 0)
+            {
+                <ul class="list-group">
+                    @foreach (var post in ViewBag.LatestPosts)
+                    {
+                        <li class="list-group-item">
+                            <a href="@Url.Action("Details", "Post", new { id = post.PostId })">@post.Title</a>
+                            <p>@post.Description</p>
+                            <small>Posted by @post.Author?.UserName on @post.CreateDate.ToString("g")</small>
+                        </li>
+                    }
+                </ul>
+            }
+            else
+            {
+                <p>No posts available.</p>
+            }
+
+        </div>
+        <div class="col-md-4">
+            <h2>Join Us</h2>
+            <p>Become a part of our community. Sign up now to get access to exclusive content and updates.</p>
+            <a class="btn btn-primary" href="/Account/Register">Sign Up</a>
+        </div>
+    </div>
 </div>

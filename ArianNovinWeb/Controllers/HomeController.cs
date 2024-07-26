@@ -1,24 +1,35 @@
+using ArianNovinWeb.Data;
 using ArianNovinWeb.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
 
 namespace ArianNovinWeb.Controllers
 {
 	public class HomeController : Controller
 	{
-		private readonly ILogger<HomeController> _logger;
+        private readonly ApplicationDbContext _context;
+        private readonly ILogger<HomeController> _logger;
 
-		public HomeController(ILogger<HomeController> logger)
+		public HomeController(ILogger<HomeController> logger, ApplicationDbContext context)
 		{
-			_logger = logger;
+            _context = context;
+            _logger = logger;
 		}
 
-		public IActionResult Index()
-		{
-			return View();
-		}
+        public async Task<IActionResult> Index()
+        {
+            var latestPosts = await _context.Posts
+                .Include(p => p.Author)
+                .OrderByDescending(p => p.CreateDate)
+                .Take(5)
+                .ToListAsync();
 
-		public IActionResult Privacy()
+            ViewBag.LatestPosts = latestPosts;
+            return View();
+        }
+
+        public IActionResult Privacy()
 		{
 			return View();
 		}

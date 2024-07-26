@@ -9,10 +9,10 @@ namespace ArianNovinWeb.Models
         public int CourseId { get; set; }
 
         [Required]
-        public string Title { get; set; }
+        public string? Title { get; set; }
 
         [Required]
-        public string Description { get; set; }
+        public string? Description { get; set; }
 
         [Required]
         public DateTime StartDate { get; set; }
@@ -21,7 +21,7 @@ namespace ArianNovinWeb.Models
         public DateTime EndDate { get; set; }
 
         [Required]
-        public string Instructor { get; set; }
+        public string? Instructor { get; set; }
         public int MaxAttendees { get; set; }
         // Helper method to check if the course is full
         public bool IsFull()
