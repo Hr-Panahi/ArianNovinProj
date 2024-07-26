@@ -1,130 +1,80 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using ArianNovinWeb.Models;
 using Microsoft.EntityFrameworkCore;
 using ArianNovinWeb.Data;
-using ArianNovinWeb.ViewModels;
+using ArianNovinWeb.Models;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
 
-namespace ArianNovinWeb.Controllers
+[ApiController]
+[Route("api/[controller]")]
+public class CourseApiController : ControllerBase
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class ApiCourseController : ControllerBase
+    private readonly ApplicationDbContext _context;
+
+    public CourseApiController(ApplicationDbContext context)
     {
-        private readonly ApplicationDbContext _context;
+        _context = context;
+    }
 
-        public ApiCourseController(ApplicationDbContext context)
+    [HttpGet]
+    public async Task<ActionResult<IEnumerable<Course>>> GetCourses()
+    {
+        var courses = await _context.Courses
+            .Include(c => c.Enrollments)
+            .ThenInclude(e => e.User)
+            .ToListAsync();
+
+        var result = courses.Select(course => new
         {
-            _context = context;
+            course.CourseId,
+            course.Title,
+            course.Description,
+            course.StartDate,
+            course.EndDate,
+            course.Instructor,
+            course.MaxAttendees,
+            Enrollments = course.Enrollments.Select(e => new
+            {
+                e.EnrollmentId,
+                e.EnrolledAt,
+                User = new { e.User.UserName, e.User.Email }
+            })
+        });
+
+        return Ok(result);
+    }
+
+    [HttpGet("{id}")]
+    public async Task<ActionResult<Course>> GetCourse(int id)
+    {
+        var course = await _context.Courses
+            .Include(c => c.Enrollments)
+            .ThenInclude(e => e.User)
+            .FirstOrDefaultAsync(c => c.CourseId == id);
+
+        if (course == null)
+        {
+            return NotFound();
         }
 
-        // GET: api/ApiCourse
-        [HttpGet]
-        [AllowAnonymous]
-        public async Task<ActionResult<IEnumerable<Course>>> GetCourses()
+        var result = new
         {
-            return await _context.Courses
-                .Include(c => c.Enrollments)
-                .ThenInclude(e => e.User)
-                .ToListAsync();
-        }
-
-        // GET: api/ApiCourse/5
-        [HttpGet("{id}")]
-        [AllowAnonymous]
-        public async Task<ActionResult<Course>> GetCourse(int id)
-        {
-            var course = await _context.Courses
-                .Include(c => c.Enrollments)
-                .ThenInclude(e => e.User)
-                .FirstOrDefaultAsync(c => c.CourseId == id);
-
-            if (course == null)
+            course.CourseId,
+            course.Title,
+            course.Description,
+            course.StartDate,
+            course.EndDate,
+            course.Instructor,
+            course.MaxAttendees,
+            Enrollments = course.Enrollments.Select(e => new
             {
-                return NotFound();
-            }
+                e.EnrollmentId,
+                e.EnrolledAt,
+                User = new { e.User.UserName, e.User.Email }
+            })
+        };
 
-            return course;
-        }
-
-        // POST: api/ApiCourse
-        [HttpPost]
-        [Authorize(Roles = "Admin")]
-        public async Task<ActionResult<Course>> PostCourse(CourseVM model)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            var course = new Course
-            {
-                Title = model.Title,
-                Description = model.Description,
-                StartDate = model.StartDate,
-                Instructor = model.Instructor,
-                EndDate = model.EndDate,
-                MaxAttendees = model.MaxAttendees
-            };
-
-            _context.Courses.Add(course);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction(nameof(GetCourse), new { id = course.CourseId }, course);
-        }
-
-        // PUT: api/ApiCourse/5
-        [HttpPut("{id}")]
-        [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> PutCourse(int id, Course course)
-        {
-            if (id != course.CourseId)
-            {
-                return BadRequest();
-            }
-
-            _context.Entry(course).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!CourseExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return NoContent();
-        }
-
-        // DELETE: api/ApiCourse/5
-        [HttpDelete("{id}")]
-        [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> DeleteCourse(int id)
-        {
-            var course = await _context.Courses.FindAsync(id);
-            if (course == null)
-            {
-                return NotFound();
-            }
-
-            _context.Courses.Remove(course);
-            await _context.SaveChangesAsync();
-
-            return NoContent();
-        }
-
-        private bool CourseExists(int id)
-        {
-            return _context.Courses.Any(e => e.CourseId == id);
-        }
+        return Ok(result);
     }
 }
