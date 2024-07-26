@@ -420,7 +420,6 @@ namespace ArianNovinWeb.Controllers
         }
         #endregion
 
-
     }
 
 }

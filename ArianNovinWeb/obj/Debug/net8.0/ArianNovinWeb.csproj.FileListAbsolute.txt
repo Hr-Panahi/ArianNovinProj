@@ -286,3 +286,7 @@ E:\Arian Novin\ArianNovin\ArianNovinWeb\obj\Debug\net8.0\refint\ArianNovinWeb.dl
 E:\Arian Novin\ArianNovin\ArianNovinWeb\obj\Debug\net8.0\ArianNovinWeb.pdb
 E:\Arian Novin\ArianNovin\ArianNovinWeb\obj\Debug\net8.0\ArianNovinWeb.genruntimeconfig.cache
 E:\Arian Novin\ArianNovin\ArianNovinWeb\obj\Debug\net8.0\ref\ArianNovinWeb.dll
+E:\Arian Novin\ArianNovin\ArianNovinWeb\bin\Debug\net8.0\Microsoft.OpenApi.dll
+E:\Arian Novin\ArianNovin\ArianNovinWeb\bin\Debug\net8.0\Swashbuckle.AspNetCore.Swagger.dll
+E:\Arian Novin\ArianNovin\ArianNovinWeb\bin\Debug\net8.0\Swashbuckle.AspNetCore.SwaggerGen.dll
+E:\Arian Novin\ArianNovin\ArianNovinWeb\bin\Debug\net8.0\Swashbuckle.AspNetCore.SwaggerUI.dll
