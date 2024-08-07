@@ -1,6 +1,6 @@
 ﻿@model ArianNovinWeb.Models.Comment
 
-<div class="card border-primary mb-3" ">
+<div class="card border-primary mb-3">
     <div class="card-body">
         <p class="card-header">
             @if (Model.Author.UserName != null)
@@ -15,11 +15,11 @@
                     Post by @Model.Author.Email at @Model.CreatedAt
                 </small>
             }
-        <p class="card-text">@Model.Content</p>
         </p>
+        <p class="card-text">@Model.Content</p>
 
         <!-- Reply form -->
-        <form asp-action="AddComment" method="post" class="mt-2">
+        <form asp-action="AddReply" method="post" class="mt-2">
             <input type="hidden" name="PostId" value="@Model.PostId" />
             <input type="hidden" name="ParentCommentId" value="@Model.CommentId" />
             <div class="mb-2">
@@ -38,6 +38,5 @@
                 }
             </div>
         }
-
     </div>
 </div>

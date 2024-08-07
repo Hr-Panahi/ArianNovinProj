@@ -389,7 +389,7 @@ namespace ArianNovinWeb.Controllers
         /// <returns>Redirects to Index view</returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> AddComment(int postId, string content, int? parentCommentId)
+        public async Task<IActionResult> AddComment(int postId, string content)
         {
             if (!ModelState.IsValid)
             {
@@ -409,13 +409,44 @@ namespace ArianNovinWeb.Controllers
                 Content = content,
                 AuthorId = user.Id,
                 CreatedAt = DateTime.Now,
-                ParentCommentId = parentCommentId
             };
 
             _context.Comments.Add(comment);
             await _context.SaveChangesAsync();
 
             TempData["SuccessMessage"] = "Comment added successfully!";
+            return RedirectToAction("Index", new { id = postId });
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AddReply(int postId, string content, int parentCommentId)
+        {
+            if (!ModelState.IsValid)
+            {
+                TempData["ErrorMessage"] = "Failed to add reply. Please try again.";
+                return RedirectToAction("Index", new { id = postId });
+            }
+
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                return Forbid();
+            }
+
+            var reply = new Comment
+            {
+                PostId = postId,
+                Content = content,
+                AuthorId = user.Id,
+                CreatedAt = DateTime.Now,
+                ParentCommentId = parentCommentId
+            };
+
+            _context.Comments.Add(reply);
+            await _context.SaveChangesAsync();
+
+            TempData["SuccessMessage"] = "Reply added successfully!";
             return RedirectToAction("Index", new { id = postId });
         }
         #endregion
