@@ -35,8 +35,19 @@
         </div>
         <div class="col-md-4">
             <h2>Join Us</h2>
-            <p>Become a part of our community. Sign up now to get access to exclusive content and updates.</p>
-            <a class="btn btn-primary" href="/Account/Register">Sign Up</a>
+            <p>
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <text>Welcome back! You can edit your profile here.</text>
+                    <a class="btn btn-primary" href="/User/Edit">Edit Profile</a>
+                }
+                else
+                {
+                    <text>Become a part of our community. Sign up now to get access to exclusive content and updates.</text>
+                    <a class="btn btn-primary" href="/Identity/Account/Register">Sign Up</a>
+                }
+            </p>
         </div>
+
     </div>
 </div>

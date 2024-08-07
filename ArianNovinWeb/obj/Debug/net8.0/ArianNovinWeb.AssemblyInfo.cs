@@ -15,7 +15,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("ArianNovinWeb")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+f10688eba34b757c7ca236df9b44ffcfa404965f")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+48f7efb796ff00da767f3de1a63ae630231a6a9a")]
 [assembly: System.Reflection.AssemblyProductAttribute("ArianNovinWeb")]
 [assembly: System.Reflection.AssemblyTitleAttribute("ArianNovinWeb")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

@@ -385,7 +385,6 @@ namespace ArianNovinWeb.Controllers
         /// </summary>
         /// <param name="postId">Post ID</param>
         /// <param name="content">Comment content</param>
-        /// <param name="parentCommentId">Parent comment ID (optional)</param>
         /// <returns>Redirects to Index view</returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -417,7 +416,15 @@ namespace ArianNovinWeb.Controllers
             TempData["SuccessMessage"] = "Comment added successfully!";
             return RedirectToAction("Index", new { id = postId });
         }
-
+        #endregion
+        #region Add Reply
+        /// <summary>
+        /// Handles adding a reply to a comment.
+        /// </summary>
+        /// <param name="postId">Post ID</param>
+        /// <param name="content">Comment content</param>
+        /// <param name="parentCommentId">Parent comment ID (optional)</param>
+        /// <returns>Redirects to Details view</returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> AddReply(int postId, string content, int parentCommentId)
@@ -447,7 +454,7 @@ namespace ArianNovinWeb.Controllers
             await _context.SaveChangesAsync();
 
             TempData["SuccessMessage"] = "Reply added successfully!";
-            return RedirectToAction("Index", new { id = postId });
+            return RedirectToAction("Details", new { id = postId });
         }
         #endregion
 
